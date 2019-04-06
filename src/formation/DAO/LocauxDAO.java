@@ -1,13 +1,11 @@
 package formation.DAO;
 
 import formation.Locaux;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import myconnections.DBConnection;
 
@@ -213,9 +211,9 @@ public class LocauxDAO extends DAO<Locaux>{
     
     /**
  * méthode statique permettant de récupérer tous les locaux portant un certain mot dans la description
- * @param nomrech nom recherché
- * @return liste de clients
- * @throws Exception nom inconnu
+ * @param nomrech mot recherché
+ * @return liste des locaux
+ * @throws Exception mot inconnue
  */
    
    public  ArrayList<Locaux> rechNom(String nomrech)throws Exception{
@@ -236,7 +234,7 @@ public class LocauxDAO extends DAO<Locaux>{
                 }
 
                 if (!trouve) {
-                    throw new SQLException("nom inconnu");
+                    throw new SQLException("Mot inconnue");
                 } else {
                     return listLocaux;
                 }

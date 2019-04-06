@@ -6,10 +6,12 @@
 package formation.DAO;
 
 import formation.Formation;
+import formation.Locaux;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import myconnections.DBConnection;
 
@@ -26,7 +28,7 @@ public class FormationDAO extends DAO<Formation>{
      * Menu de la class Formation
      * @throws SQLException 
      */
-    public void menu() throws SQLException{
+    public void menu() throws SQLException, Exception{
         dbConnect = DBConnection.getConnection();
         if (dbConnect == null) {
             System.exit(0);
@@ -39,7 +41,8 @@ public class FormationDAO extends DAO<Formation>{
             System.out.println("2) Lire");
             System.out.println("3) Mettre à jour");
             System.out.println("4) Supprimer");
-            System.out.println("5) Fin");
+            System.out.println("5) Recherche sur la localite");
+            System.out.println("6) Fin");
             System.out.print("Quel voulez vous faire ? ");
             ans = sc.nextInt();
             sc.skip("\n");
@@ -115,7 +118,11 @@ public class FormationDAO extends DAO<Formation>{
                         Formation forDel = new Formation(mat);
                         delete(forDel);
                         break;
-                case 5: flag = 1;
+                case 5: System.out.print("Quel mot recherchez vous ? ");
+                        String mot = sc.nextLine();
+                        rechNom(mot);
+                        break;
+                case 6: flag = 1;
                         break;
                 default: System.out.println("Erreur, le nombre entré est incorrect");
             }
@@ -225,5 +232,42 @@ public class FormationDAO extends DAO<Formation>{
         }
     }
     
+       /**
+ * méthode statique permettant de récupérer toutes personnes portant un certain mot dans la localite
+ * @param nomrech mot recherché
+ * @return liste des localite
+ * @throws Exception mot inconnue
+ */
+   
+   public  ArrayList<Formation> rechNom(String nomrech)throws Exception{
+       ArrayList<Formation> listLocalite = new ArrayList<>();
+        String req = "select * from formation where localite = ?";
+
+        try (PreparedStatement pstm = dbConnect.prepareStatement(req)) {
+            pstm.setString(1, nomrech);
+            try (ResultSet rs = pstm.executeQuery()) {
+                boolean trouve = false;
+                while (rs.next()) {
+                    trouve = true;
+                    int idForm = rs.getInt("IDFORM");
+                    int mat = rs.getInt("MATRICULE");
+                    String nom = rs.getString("NOM");
+                    String prenom = rs.getString("PRENOM");
+                    String num = rs.getString("NUMERO");
+                    String rue = rs.getString("RUE");
+                    String loc = rs.getString("LOCALITE");
+                    int cp = rs.getInt("CP");
+                    String tel = rs.getString("TEL");
+                    listLocalite.add(new Formation(idForm, mat, nom, prenom, num, rue, loc, cp, tel));
+                }
+
+                if (!trouve) {
+                    throw new SQLException("Mot inconnue");
+                } else {
+                    return listLocalite;
+                }
+            }
+        }
+    }
     
 }

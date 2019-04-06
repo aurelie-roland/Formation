@@ -24,7 +24,7 @@ public class GestionFormation {
      * @param args the command line arguments
      * @throws SQLException
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, Exception {
         GestionFormation gesFor = new GestionFormation();
         gesFor.menu();
     }
@@ -34,7 +34,7 @@ public class GestionFormation {
      * Menu principal du programme qui va renvoyer vers d'autres menus
      * @throws SQLException 
     */
-    public void menu() throws SQLException{
+    public void menu() throws SQLException, Exception{
         String men[] = {"Locaux","Formations","Cours","Fin"}; 
         int flag = 0;
         int ans = 0;

@@ -6,6 +6,7 @@
 package formation.DAO;
 
 import formation.Locaux;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -56,13 +57,12 @@ public class LocauxDAOTest {
     @Test
     public void testRead() throws Exception {
         System.out.println("read");
-        int id = 0;
+        int id = 1;
         LocauxDAO instance = new LocauxDAO();
-        Locaux expResult = null;
+        LocauxDAO inst =  new LocauxDAO();
+        Locaux expResult = inst.read(1);
         Locaux result = instance.read(id);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -104,6 +104,21 @@ public class LocauxDAOTest {
         Locaux obj = null;
         LocauxDAO instance = new LocauxDAO();
         instance.delete(obj);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of rechNom method, of class LocauxDAO.
+     */
+    @Test
+    public void testRechNom() throws Exception {
+        System.out.println("rechNom");
+        String nomrech = "";
+        LocauxDAO instance = new LocauxDAO();
+        ArrayList<Locaux> expResult = null;
+        ArrayList<Locaux> result = instance.rechNom(nomrech);
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
