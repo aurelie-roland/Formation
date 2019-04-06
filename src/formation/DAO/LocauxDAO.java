@@ -1,10 +1,13 @@
 package formation.DAO;
 
 import formation.Locaux;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import myconnections.DBConnection;
 
@@ -21,7 +24,7 @@ public class LocauxDAO extends DAO<Locaux>{
      * Menu de la table Local
      * @throws SQLException 
      */
-    public void menu() throws SQLException{
+    public void menu() throws SQLException, Exception{
         int flag = 0, ans = 0, id, places;
         String sigle,des;
         dbConnect = DBConnection.getConnection();
@@ -34,7 +37,8 @@ public class LocauxDAO extends DAO<Locaux>{
             System.out.println("2) Lire");
             System.out.println("3) Mettre à jour");
             System.out.println("4) Supprimer");
-            System.out.println("5) Fin");
+            System.out.println("5) Recherche sur la description");
+            System.out.println("6) Fin");
             System.out.print("Quel voulez vous faire ? ");
             ans = sc.nextInt();
             sc.skip("\n");
@@ -95,7 +99,11 @@ public class LocauxDAO extends DAO<Locaux>{
                         delete(locDel);
                         DBConnection.closeConnection();
                         break;
-                case 5: flag = 1;
+                case 5: System.out.print("Quel mot recherchez vous ? ");
+                        String mot = sc.nextLine();
+                        rechNom(mot);
+                        break;
+                case 6: flag = 1;
                         break;
                 default: System.out.println("Erreur, le nombre entré est incorrect");
             }
@@ -200,6 +208,39 @@ public class LocauxDAO extends DAO<Locaux>{
             if (n == 0) {
                 throw new SQLException("aucune ligne client effacée");
             }       
+        }
+    }
+    
+    /**
+ * méthode statique permettant de récupérer tous les locaux portant un certain mot dans la description
+ * @param nomrech nom recherché
+ * @return liste de clients
+ * @throws Exception nom inconnu
+ */
+   
+   public  ArrayList<Locaux> rechNom(String nomrech)throws Exception{
+       ArrayList<Locaux> listLocaux = new ArrayList<>();
+        String req = "select * from local where description = ?";
+
+        try (PreparedStatement pstm = dbConnect.prepareStatement(req)) {
+            pstm.setString(1, nomrech);
+            try (ResultSet rs = pstm.executeQuery()) {
+                boolean trouve = false;
+                while (rs.next()) {
+                    trouve = true;
+                    int idLoc = rs.getInt("IDLOCAL");
+                        String sigle = rs.getString("SIGLE");
+                        int places = rs.getInt("PLACES");
+                        String desc = rs.getString("DESCRIPTION");
+                        listLocaux.add(new Locaux(idLoc, sigle, places, desc));
+                }
+
+                if (!trouve) {
+                    throw new SQLException("nom inconnu");
+                } else {
+                    return listLocaux;
+                }
+            }
         }
     }
 }
