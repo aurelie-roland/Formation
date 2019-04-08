@@ -20,6 +20,9 @@ import static org.junit.Assert.*;
  */
 public class LocauxDAOTest {
     
+    Locaux instance;
+    static LocauxDAO locauxDAO;
+    
     public LocauxDAOTest() {
     }
     
@@ -70,14 +73,17 @@ public class LocauxDAOTest {
      */
     @Test
     public void testCreate() throws Exception {
-        System.out.println("create");
-        Locaux obj = null;
-        LocauxDAO instance = new LocauxDAO();
-        Locaux expResult = null;
-        Locaux result = instance.create(obj);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int id=instance.getIdLocal();
+        Locaux localLu = locauxDAO.read(id);
+        assertEquals(instance.getIdLocal(),localLu.getIdLocal());
+       
+        try{
+           Locaux instance2 = new Locaux(id, "Sigle", 14, "des");
+           locauxDAO.create(instance2);
+           locauxDAO.delete(instance2);
+           fail("création d'un doublon");
+        }
+        catch(Exception e){}
     }
 
     /**
