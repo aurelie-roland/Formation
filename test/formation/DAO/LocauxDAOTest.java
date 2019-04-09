@@ -7,6 +7,7 @@ package formation.DAO;
 
 import formation.Locaux;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import myconnections.DBConnection;
 import org.junit.After;
@@ -84,9 +85,22 @@ public class LocauxDAOTest {
      */
     @Test
     public void testRead() throws Exception {
-        String nom = instance.getSigle();
-        instance = locauxDAO.read((instance.getIdLocal()));
-        assertEquals(nom,instance.getSigle());
+        System.out.println("READ : ");
+        int idLocal = 0;
+        Locaux obj = new Locaux(1, "Sigle", 1, "description");
+        Locaux expResult = locauxDAO.create(obj);
+        idLocal = expResult.getIdLocal();
+        Locaux result = locauxDAO.read(idLocal);
+        assertEquals("Sigle différents",expResult.getSigle(), result.getSigle());
+        assertEquals("ID différents",expResult.getIdLocal(), result.getIdLocal());
+        assertEquals("Nombres de places différents",expResult.getPlaces(), result.getPlaces());
+        assertEquals("Description différents",expResult.getDescritpion(),result.getDescritpion());
+        try{
+            result = locauxDAO.read(0);
+            fail("exception d'id inconnu non générée");
+        }
+        catch(SQLException e){}
+        locauxDAO.delete(result);
     }
 
     /**
@@ -94,17 +108,32 @@ public class LocauxDAOTest {
      */
     @Test
     public void testCreate() throws Exception {
-        int id=instance.getIdLocal();
-        Locaux localLu = locauxDAO.read(id);
-        assertEquals(instance.getIdLocal(),localLu.getIdLocal());
-       
+        System.out.println("CREATE : ");
+        Locaux obj = new Locaux(1, "Sigle", 1, "description");
+        LocauxDAO instance = new LocauxDAO();
+        Locaux expResult = new Locaux(1, "Sigle", 1, "description");
+        Locaux result = instance.create(obj);
+        assertEquals("Sigle différents",expResult.getSigle(), result.getSigle());
+        assertEquals("ID différents",expResult.getIdLocal(), result.getIdLocal());
+        assertEquals("Nombres de places différents",expResult.getPlaces(), result.getPlaces());
+        assertEquals("Description différents",expResult.getDescritpion(),result.getDescritpion());
+        int idLocal = result.getIdLocal();
+        obj = new Locaux(2, "Sigle 2", 2, "description 2");
         try{
-           Locaux instance2 = new Locaux(id, "Sigle", 14, "des");
-           locauxDAO.create(instance2);
-           locauxDAO.delete(instance2);
-           fail("création d'un doublon");
+            Locaux result2 = instance.create(obj);
+            fail("exception de doublon non déclenchée");
+            instance.delete(result2);
         }
-        catch(Exception e){}
+        catch(SQLException e){}
+        instance.delete(result);
+        
+          obj= new Locaux(2, "Sigle 2", 2, "description 2");
+        try{
+            Locaux result3 = instance.create(obj);
+            fail("exception de code postal non déclenchée");
+            instance.delete(result3);
+        }
+        catch(SQLException e){}
     }
 
     /**
@@ -112,7 +141,7 @@ public class LocauxDAOTest {
      */
     @Test
     public void testUpdate() throws Exception {
-        System.out.println("update");
+        System.out.println("UPDATE");
         Locaux obj = null;
         LocauxDAO instance = new LocauxDAO();
         Locaux expResult = null;
@@ -127,12 +156,16 @@ public class LocauxDAOTest {
      */
     @Test
     public void testDelete() throws Exception {
-        System.out.println("delete");
-        Locaux obj = null;
+        System.out.println("DELETE");
+        Locaux obj = new Locaux(1, "Sigle", 1, "description");
         LocauxDAO instance = new LocauxDAO();
+        obj = instance.create(obj);
         instance.delete(obj);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            instance.read(obj.getIdLocal());
+            fail("exception de record introuvable non générée");
+        }
+        catch(SQLException e){}
     }
 
     /**
@@ -140,7 +173,7 @@ public class LocauxDAOTest {
      */
     @Test
     public void testRechNom() throws Exception {
-        System.out.println("rechNom");
+        System.out.println("RECHERCHE NOM");
         String nomrech = "";
         LocauxDAO instance = new LocauxDAO();
         ArrayList<Locaux> expResult = null;

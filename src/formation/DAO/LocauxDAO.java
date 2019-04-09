@@ -23,8 +23,8 @@ public class LocauxDAO extends DAO<Locaux>{
      * @throws SQLException 
      */
     public void menu() throws SQLException, Exception{
-        int flag = 0, ans = 0, id, places;
-        String sigle,des;
+        int flag = 0, ans = 0, id = 0, places = 0;
+        String sigle = "", des = "";
         dbConnect = DBConnection.getConnection();
         if (dbConnect == null) {
             System.exit(0);
