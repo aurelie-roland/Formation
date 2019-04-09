@@ -6,7 +6,9 @@
 package formation.DAO;
 
 import formation.Locaux;
+import java.sql.Connection;
 import java.util.ArrayList;
+import myconnections.DBConnection;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -28,18 +30,41 @@ public class LocauxDAOTest {
     
     @BeforeClass
     public static void setUpClass() {
+       Connection dbConnect = DBConnection.getConnection();
+        if (dbConnect == null) {
+            System.out.println("connection invalide");
+            System.exit(0);
+        }
+        
+     System.out.println("connexion établie");
+      locauxDAO = new LocauxDAO();
+      locauxDAO.setConnection(dbConnect);
+
     }
     
     @AfterClass
     public static void tearDownClass() {
+        DBConnection.closeConnection();
     }
     
     @Before
     public void setUp() {
+        instance = new Locaux(1, "Sigle", 1, "description");
+       try{
+         instance= locauxDAO.create(instance);
+          
+       }
+       catch(Exception e){
+        
+       }
     }
     
     @After
     public void tearDown() {
+        try{
+        locauxDAO.delete(instance);
+        }
+        catch(Exception e){}
     }
 
     /**
@@ -59,13 +84,9 @@ public class LocauxDAOTest {
      */
     @Test
     public void testRead() throws Exception {
-        System.out.println("read");
-        int id = 1;
-        LocauxDAO instance = new LocauxDAO();
-        LocauxDAO inst =  new LocauxDAO();
-        Locaux expResult = inst.read(1);
-        Locaux result = instance.read(id);
-        assertEquals(expResult, result);
+        String nom = instance.getSigle();
+        instance = locauxDAO.read((instance.getIdLocal()));
+        assertEquals(nom,instance.getSigle());
     }
 
     /**
