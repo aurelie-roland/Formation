@@ -22,24 +22,19 @@ import static org.junit.Assert.*;
  * @author Aurelie Roland
  */
 public class LocauxDAOTest {
-    
-    Locaux instance;
-    static LocauxDAO locauxDAO;
+        
+    static Connection dbConnect;
     
     public LocauxDAOTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
-       Connection dbConnect = DBConnection.getConnection();
+       dbConnect = DBConnection.getConnection();
         if (dbConnect == null) {
             System.out.println("connection invalide");
-            System.exit(0);
+            System.exit(1);
         }
-        
-     System.out.println("connexion établie");
-      locauxDAO = new LocauxDAO();
-      locauxDAO.setConnection(dbConnect);
 
     }
     
@@ -50,22 +45,10 @@ public class LocauxDAOTest {
     
     @Before
     public void setUp() {
-        instance = new Locaux(1, "Sigle", 1, "description");
-       try{
-         instance= locauxDAO.create(instance);
-          
-       }
-       catch(Exception e){
-        
-       }
     }
     
     @After
     public void tearDown() {
-        try{
-        locauxDAO.delete(instance);
-        }
-        catch(Exception e){}
     }
 
     /**
@@ -87,6 +70,8 @@ public class LocauxDAOTest {
     public void testRead() throws Exception {
         System.out.println("READ : ");
         int idLocal = 0;
+        LocauxDAO locauxDAO = new LocauxDAO();
+        locauxDAO.setConnection(dbConnect);
         Locaux obj = new Locaux(1, "Sigle", 1, "description");
         Locaux expResult = locauxDAO.create(obj);
         idLocal = expResult.getIdLocal();
@@ -111,6 +96,7 @@ public class LocauxDAOTest {
         System.out.println("CREATE : ");
         Locaux obj = new Locaux(1, "Sigle", 1, "description");
         LocauxDAO instance = new LocauxDAO();
+        instance.setConnection(dbConnect);
         Locaux expResult = new Locaux(1, "Sigle", 1, "description");
         Locaux result = instance.create(obj);
         assertEquals("Sigle différents",expResult.getSigle(), result.getSigle());
@@ -159,6 +145,7 @@ public class LocauxDAOTest {
         System.out.println("DELETE");
         Locaux obj = new Locaux(1, "Sigle", 1, "description");
         LocauxDAO instance = new LocauxDAO();
+        instance.setConnection(dbConnect);
         obj = instance.create(obj);
         instance.delete(obj);
         try {
