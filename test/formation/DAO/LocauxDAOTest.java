@@ -35,7 +35,6 @@ public class LocauxDAOTest {
             System.out.println("connection invalide");
             System.exit(1);
         }
-
     }
     
     @AfterClass
@@ -59,8 +58,6 @@ public class LocauxDAOTest {
         System.out.println("menu");
         LocauxDAO instance = new LocauxDAO();
         instance.menu();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -79,7 +76,7 @@ public class LocauxDAOTest {
         assertEquals("Sigle différents",expResult.getSigle(), result.getSigle());
         assertEquals("ID différents",expResult.getIdLocal(), result.getIdLocal());
         assertEquals("Nombres de places différents",expResult.getPlaces(), result.getPlaces());
-        assertEquals("Description différents",expResult.getDescritpion(),result.getDescritpion());
+        assertEquals("Description différents",expResult.getDescription(),result.getDescription());
         try{
             result = locauxDAO.read(0);
             fail("exception d'id inconnu non générée");
@@ -102,7 +99,7 @@ public class LocauxDAOTest {
         assertEquals("Sigle différents",expResult.getSigle(), result.getSigle());
         assertEquals("ID différents",expResult.getIdLocal(), result.getIdLocal());
         assertEquals("Nombres de places différents",expResult.getPlaces(), result.getPlaces());
-        assertEquals("Description différents",expResult.getDescritpion(),result.getDescritpion());
+        assertEquals("Description différents",expResult.getDescription(),result.getDescription());
         int idLocal = result.getIdLocal();
         obj = new Locaux(2, "Sigle 2", 2, "description 2");
         try{
@@ -128,13 +125,21 @@ public class LocauxDAOTest {
     @Test
     public void testUpdate() throws Exception {
         System.out.println("UPDATE");
-        Locaux obj = null;
+        Locaux obj = new Locaux(2, "Sigle 2", 2, "description 2");
         LocauxDAO instance = new LocauxDAO();
-        Locaux expResult = null;
+        instance.setConnection(dbConnect);
+        obj = instance.create(obj);
+        obj.setIdLocal(2);
+        obj.setSigle("Sigle 2");
+        obj.setPlaces(2);
+        obj.setDescription("description 2");
+        Locaux expResult=obj;
         Locaux result = instance.update(obj);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult.getIdLocal(), result.getIdLocal());
+        assertEquals(expResult.getSigle(), result.getSigle());
+        assertEquals(expResult.getPlaces(), result.getPlaces());
+        assertEquals(expResult.getDescription(), result.getDescription());
+        instance.delete(obj);
     }
 
     /**

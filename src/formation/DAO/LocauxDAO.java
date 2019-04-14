@@ -153,14 +153,14 @@ public class LocauxDAO extends DAO<Locaux>{
             pstm1.setInt(1, obj.getIdLocal());
             pstm1.setString(2, obj.getSigle());
             pstm1.setInt(3, obj.getPlaces());
-            pstm1.setString(4, obj.getDescritpion());
+            pstm1.setString(4, obj.getDescription());
             int n = pstm1.executeUpdate();
             if (n == 0) {
                 throw new SQLException("Erreur de création local");
             }
             pstm2.setString(1, obj.getSigle());
             pstm2.setInt(2, obj.getPlaces());
-            pstm2.setString(3, obj.getDescritpion());
+            pstm2.setString(3, obj.getDescription());
             try (ResultSet rs = pstm2.executeQuery()) {
                 if (rs.next()) {
                     int idlocal = rs.getInt(1);
@@ -186,7 +186,7 @@ public class LocauxDAO extends DAO<Locaux>{
             pstm.setString(4, obj.getSigle());
             pstm.setInt(1, obj.getIdLocal());
             pstm.setInt(2,obj.getPlaces());
-            pstm.setString(3, obj.getDescritpion());
+            pstm.setString(3, obj.getDescription());
             pstm.executeUpdate();
             return read(obj.getIdLocal());
         }

@@ -10,7 +10,7 @@ public class Locaux {
     int idLocal = 0;
     String sigle = "";
     int places = 0;
-    String descritpion = "";
+    String description = "";
     
     /**
      * constructeur de la class Locaux
@@ -23,7 +23,7 @@ public class Locaux {
         this.idLocal = idLocal;
         this.sigle = sigle;
         this.places = places;
-        this.descritpion = description;
+        this.description = description;
         System.out.println(toString());
         
     }
@@ -80,16 +80,16 @@ public class Locaux {
      * recupere a description
      * @return description
      */
-    public String getDescritpion() {
-        return descritpion;
+    public String getDescription() {
+        return description;
     }
 
     /**
      * Change la description du local
      * @param descritpion 
      */
-    public void setDescritpion(String descritpion) {
-        this.descritpion = descritpion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -97,7 +97,7 @@ public class Locaux {
      * @return String de Local
      */
     public String toString(){
-        return "Local : "+ idLocal + " sigle : "+ sigle +" places : "+ places + " description : "+ descritpion;
+        return "Local : "+ idLocal + " sigle : "+ sigle +" places : "+ places + " description : "+ description;
     }
 
     
