@@ -8,7 +8,7 @@ package formation.DAO;
 import formation.Locaux;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 import myconnections.DBConnection;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -161,13 +161,18 @@ public class LocauxDAOTest {
     @Test
     public void testRechNom() throws Exception {
         System.out.println("RECHERCHE NOM");
-        String nomrech = "";
+        Locaux obj1 = new Locaux(1, "Sigle", 1, "description");
+        Locaux obj2 = new Locaux(1, "Sigle 2 ", 1, "description 2");
+        String nomrech = "TestNom";
         LocauxDAO instance = new LocauxDAO();
-        ArrayList<Locaux> expResult = null;
-        ArrayList<Locaux> result = instance.rechNom(nomrech);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.setConnection(dbConnect);
+        obj1=instance.create(obj1);
+        obj2=instance.create(obj2);
+        List<Locaux> result = instance.rechNom(nomrech);
+        if(result.indexOf(obj1)<0) fail("record introuvable "+obj1);
+        if(result.indexOf(obj2)<0) fail("record introuvable"+obj2);
+        instance.delete(obj1);
+        instance.delete(obj2);
     }
     
 }
