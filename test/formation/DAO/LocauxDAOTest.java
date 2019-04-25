@@ -51,16 +51,6 @@ public class LocauxDAOTest {
     }
 
     /**
-     * Test of menu method, of class LocauxDAO.
-     */
-    @Test
-    public void testMenu() throws Exception {
-        System.out.println("menu");
-        LocauxDAO instance = new LocauxDAO();
-        instance.menu();
-    }
-
-    /**
      * Test of read method, of class LocauxDAO.
      */
     @Test
@@ -69,7 +59,7 @@ public class LocauxDAOTest {
         int idLocal = 0;
         LocauxDAO locauxDAO = new LocauxDAO();
         locauxDAO.setConnection(dbConnect);
-        Locaux obj = new Locaux(1, "Sigle", 1, "description");
+        Locaux obj = new Locaux(1, "Sigle", 1, "description",0);
         Locaux expResult = locauxDAO.create(obj);
         idLocal = expResult.getIdLocal();
         Locaux result = locauxDAO.read(idLocal);
@@ -91,17 +81,17 @@ public class LocauxDAOTest {
     @Test
     public void testCreate() throws Exception {
         System.out.println("CREATE : ");
-        Locaux obj = new Locaux(1, "Sigle", 1, "description");
+        Locaux obj = new Locaux(1, "Sigle", 1, "description",0);
         LocauxDAO instance = new LocauxDAO();
         instance.setConnection(dbConnect);
-        Locaux expResult = new Locaux(1, "Sigle", 1, "description");
+        Locaux expResult = new Locaux(1, "Sigle", 1, "description",0);
         Locaux result = instance.create(obj);
         assertEquals("Sigle différents",expResult.getSigle(), result.getSigle());
         assertEquals("ID différents",expResult.getIdLocal(), result.getIdLocal());
         assertEquals("Nombres de places différents",expResult.getPlaces(), result.getPlaces());
         assertEquals("Description différents",expResult.getDescription(),result.getDescription());
         int idLocal = result.getIdLocal();
-        obj = new Locaux(2, "Sigle 2", 2, "description 2");
+        obj = new Locaux(2, "Sigle 2", 2, "description 2",0);
         try{
             Locaux result2 = instance.create(obj);
             fail("exception de doublon non déclenchée");
@@ -110,7 +100,7 @@ public class LocauxDAOTest {
         catch(SQLException e){}
         instance.delete(result);
         
-          obj= new Locaux(2, "Sigle 2", 2, "description 2");
+          obj= new Locaux(2, "Sigle 2", 2, "description 2",0);
         try{
             Locaux result3 = instance.create(obj);
             fail("exception de code postal non déclenchée");
@@ -125,7 +115,7 @@ public class LocauxDAOTest {
     @Test
     public void testUpdate() throws Exception {
         System.out.println("UPDATE");
-        Locaux obj = new Locaux(2, "Sigle 2", 2, "description 2");
+        Locaux obj = new Locaux(2, "Sigle 2", 2, "description 2",0);
         LocauxDAO instance = new LocauxDAO();
         instance.setConnection(dbConnect);
         obj = instance.create(obj);
@@ -148,7 +138,7 @@ public class LocauxDAOTest {
     @Test
     public void testDelete() throws Exception {
         System.out.println("DELETE");
-        Locaux obj = new Locaux(1, "Sigle", 1, "description");
+        Locaux obj = new Locaux(1, "Sigle", 1, "description",0);
         LocauxDAO instance = new LocauxDAO();
         instance.setConnection(dbConnect);
         obj = instance.create(obj);
@@ -166,8 +156,8 @@ public class LocauxDAOTest {
     @Test
     public void testRechNom() throws Exception {
         System.out.println("RECHERCHE NOM");
-        Locaux obj1 = new Locaux(1, "Sigle", 1, "description");
-        Locaux obj2 = new Locaux(1, "Sigle 2 ", 1, "description 2");
+        Locaux obj1 = new Locaux(1, "Sigle", 1, "description",0);
+        Locaux obj2 = new Locaux(1, "Sigle 2 ", 1, "description 2",0);
         String nomrech = "TestNom";
         LocauxDAO instance = new LocauxDAO();
         instance.setConnection(dbConnect);

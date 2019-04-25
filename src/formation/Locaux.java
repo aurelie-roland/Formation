@@ -19,13 +19,14 @@ public class Locaux {
      * @param places Nombre de places
      * @param description Description du local
      */
-    public Locaux(int idLocal, String sigle, int places, String description){
+    public Locaux(int idLocal, String sigle, int places, String description, int read){
         this.idLocal = idLocal;
         this.sigle = sigle;
         this.places = places;
         this.description = description;
-        System.out.println(toString());
-        
+        if(read == 1){
+            System.out.println(toString());
+        }
     }
 
     /**
@@ -78,7 +79,7 @@ public class Locaux {
 
     /**
      * recupere a description
-     * @return description
+     * @return description description du local
      */
     public String getDescription() {
         return description;
@@ -86,7 +87,7 @@ public class Locaux {
 
     /**
      * Change la description du local
-     * @param descritpion 
+     * @param description description du local
      */
     public void setDescription(String description) {
         this.description = description;

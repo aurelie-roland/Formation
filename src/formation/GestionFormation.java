@@ -7,7 +7,6 @@ package formation;
 
 import formation.DAO.CoursDAO;
 import formation.DAO.FormationDAO;
-import formation.DAO.LocauxDAO;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -45,7 +44,7 @@ public class GestionFormation {
             System.out.print("Que voulez vous faire ? ");
             ans = sc.nextInt();
             switch(ans){
-                case 1: LocauxDAO locD = new LocauxDAO();
+                case 1: GestionLocaux locD = new GestionLocaux();
                         locD.menu();
                         break;
                 case 2: FormationDAO forD = new FormationDAO();
