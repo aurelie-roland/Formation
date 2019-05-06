@@ -6,6 +6,8 @@
 package formation.GUI;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,10 +22,18 @@ public class Fenetre extends JFrame{
 
     public static Fenetre fen = new Fenetre();
     Menu menu = new Menu();
+    MenuFormateur menuForm = new MenuFormateur();
+    MenuLocal menuLoc = new MenuLocal();
+    MenuCours menuCours = new MenuCours();
+    MenuSessCours menuSess = new MenuSessCours();
     
     public Fenetre(){
         JMenuBar bar = new JMenuBar();
 	bar.setBackground(Color.WHITE);
+        
+        JMenu fichier = new JMenu("Fichier");
+        JMenuItem itemMenu = new JMenuItem("Menu");
+        JMenuItem itemQuit = new JMenuItem("Quitter");
 		
 	JMenu form = new JMenu("Formateur");
 	JMenuItem itemCreateFor = new JMenuItem("Ajouter");
@@ -49,6 +59,9 @@ public class Fenetre extends JFrame{
 	JMenuItem itemUpSess = new JMenuItem("Mettre à jour");
 	JMenuItem itemReadSess = new JMenuItem("Lire");
         JMenuItem itemDelSess = new JMenuItem("Supprimer");
+        
+        fichier.add(itemMenu);
+        fichier.add(itemQuit);
 		
 	form.add(itemCreateFor);
 	form.add(itemUpFor);
@@ -69,6 +82,7 @@ public class Fenetre extends JFrame{
 	sessCours.add(itemUpSess);
 	sessCours.add(itemReadSess);
         sessCours.add(itemDelSess);
+        bar.add(fichier);
 	bar.add(form);
 	bar.add(loc);
 	bar.add(cours);
@@ -76,6 +90,50 @@ public class Fenetre extends JFrame{
 
 	//Ajout de la JMenuBar a la fenêtre
         this.setJMenuBar(bar);
+        
+        menu.form.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                remove(menu);
+                add(menuForm);
+                repaint();
+		revalidate();
+            }
+        });
+        
+        menu.loc.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                remove(menu);
+                add(menuLoc);
+                repaint();
+		revalidate();
+            }
+        });
+        
+        menu.sess.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                remove(menu);
+                add(menuForm);
+                repaint();
+		revalidate();
+            }
+        });
+        
+        menu.cours.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                remove(menu);
+                add(menuForm);
+                repaint();
+		revalidate();
+            }
+        });
+        
+        itemMenu.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                setContentPane(menuForm);
+                repaint();
+		revalidate();
+            }
+        });
         
         this.setTitle("Formation");
 	this.setSize(700, 550);

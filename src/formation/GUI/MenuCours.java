@@ -16,14 +16,14 @@ import javax.swing.JPanel;
  *
  * @author Aurelie Roland
  */
-public class MenuLocal extends JPanel{
+public class MenuCours extends JPanel{
     
     public JButton add;
     public JButton up;
     public JButton read;
     public JButton del;
     
-    public MenuLocal(){
+    public MenuCours(){
         
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
             

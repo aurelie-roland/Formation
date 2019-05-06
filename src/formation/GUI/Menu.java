@@ -76,14 +76,5 @@ public class Menu extends JPanel{
 		}
             }
 	});
-        
-        form.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                Fenetre.fen.remove(fen.menu);
-                Fenetre.fen.add(menuForm);
-                Fenetre.fen.repaint();
-		Fenetre.fen.revalidate();
-            }
-        });
     }
 }
