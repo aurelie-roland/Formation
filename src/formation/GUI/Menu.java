@@ -24,6 +24,8 @@ public class Menu extends JPanel{
     
     MenuFormateur menuForm = new MenuFormateur();
     MenuLocal menuLoc = new MenuLocal();
+    AjoutCours ajoutCours = new AjoutCours();
+    MenuCours menuCours = new MenuCours();
     
     public JButton form;
     public JButton loc;

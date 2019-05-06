@@ -26,6 +26,7 @@ public class Fenetre extends JFrame{
     MenuLocal menuLoc = new MenuLocal();
     MenuCours menuCours = new MenuCours();
     MenuSessCours menuSess = new MenuSessCours();
+    AjoutCours ajoutCours = new AjoutCours();
     
     public Fenetre(){
         JMenuBar bar = new JMenuBar();
@@ -112,7 +113,7 @@ public class Fenetre extends JFrame{
         menu.sess.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 remove(menu);
-                add(menuForm);
+                add(menuSess);
                 repaint();
 		revalidate();
             }
@@ -121,7 +122,7 @@ public class Fenetre extends JFrame{
         menu.cours.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 remove(menu);
-                add(menuForm);
+                add(menuCours);
                 repaint();
 		revalidate();
             }
@@ -134,6 +135,15 @@ public class Fenetre extends JFrame{
 		revalidate();
             }
         });
+        
+        menuCours.add.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+		remove(menuCours);
+                add(ajoutCours);
+                repaint();
+                revalidate();
+            }
+	});
         
         this.setTitle("Formation");
 	this.setSize(700, 550);
