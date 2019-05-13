@@ -12,11 +12,12 @@ package formation.GUI;
  */
 public class MainGUI {
 
+    public static Fenetre fen;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Fenetre fen = new Fenetre();
+        fen = new Fenetre();
     }
     
 }

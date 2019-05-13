@@ -5,7 +5,6 @@
  */
 package formation.GUI;
 
-import static formation.GUI.Fenetre.fen;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;

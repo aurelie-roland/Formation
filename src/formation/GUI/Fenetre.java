@@ -20,7 +20,6 @@ import javax.swing.JMenuItem;
  */
 public class Fenetre extends JFrame{
 
-    public static Fenetre fen = new Fenetre();
     Menu menu = new Menu();
     MenuFormateur menuForm = new MenuFormateur();
     MenuLocal menuLoc = new MenuLocal();
