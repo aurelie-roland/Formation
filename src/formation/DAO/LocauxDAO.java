@@ -5,17 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.List;
 
 /**
  *
  * @author Aurelie Roland
  */
-public class LocauxDAO extends DAO<Locaux>{
-    
+public class LocauxDAO extends DAO<Locaux> {
 
     /**
      * Recuperation des informations de la classe local sur l'idLocal
+     *
      * @param id
      * @return Local
      * @throws SQLException "Code inconnu"
@@ -32,7 +32,7 @@ public class LocauxDAO extends DAO<Locaux>{
                     String sigle = rs.getString("SIGLE");
                     int places = rs.getInt("PLACES");
                     String desc = rs.getString("DESCRIPTION");
-                    return new Locaux(idLoc, sigle, places, desc,1);
+                    return new Locaux(idLoc, sigle, places, desc, 1);
 
                 } else {
                     throw new SQLException("Code inconnu");
@@ -41,14 +41,14 @@ public class LocauxDAO extends DAO<Locaux>{
             }
         }
     }
-    
+
     /**
      * Creation d'un local sur base de donnee entree par l'utilisateur
+     *
      * @param obj
      * @return Local
      * @throws SQLException "Erreur de creation"
      */
-
     @Override
     public Locaux create(Locaux obj) throws SQLException {
         String req1 = "insert into local(sigle, places, description) values(?,?,?)";
@@ -79,62 +79,57 @@ public class LocauxDAO extends DAO<Locaux>{
 
     /**
      * Om met a jour une ligne de la base de donnee Local
+     *
      * @param obj
      * @return Local
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public Locaux update(Locaux obj) throws SQLException {
-        String query1 = "update local set places = ?,description = ? where sigle = ?";
-        String query2 = "select idlocal from local where sigle = ?";
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query1);
-                PreparedStatement pstm2 = dbConnect.prepareStatement(query2)){
+        String query1 = "update local set places = ?,description = ?, sigle = ? where idlocal = ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query1)) {
             pstm.setString(3, obj.getSigle());
-            pstm.setInt(1,obj.getPlaces());
+            pstm.setInt(1, obj.getPlaces());
             pstm.setString(2, obj.getDescription());
+            pstm.setInt(4, obj.getIdLocal());
             pstm.executeUpdate();
-            pstm2.setString(1, obj.getSigle());
-            try (ResultSet rs = pstm2.executeQuery()) {
-                if (rs.next()) {
-                    int idLocal = rs.getInt(1);
-                    obj.setIdLocal(idLocal);
-                    return read(idLocal);
-                }
-                else {
-                    throw new SQLException("erreur, id introuvable");
-                }
-            }   
+            int n = pstm.executeUpdate();
+            if (n == 0) {
+                throw new SQLException("aucune ligne locaux mise à jour");
+            }
+            return read(obj.getIdLocal());
         }
     }
 
     /**
      * On supprime une ligne de la table sur base de l'idLocal
+     *
      * @param obj
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public void delete(Locaux obj) throws SQLException {
-        String query1 = "delete from local where sigle = ?";
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query1)){
-            pstm.setString(1, obj.getSigle());
+        String query1 = "delete from local where idlocal = ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query1)) {
+            pstm.setInt(1, obj.getIdLocal());
             int n = pstm.executeUpdate();
             if (n == 0) {
                 throw new SQLException("aucune ligne effacée");
-            }       
+            }
         }
     }
-    
-    /**
- * méthode statique permettant de récupérer tous les locaux portant un certain mot dans la description
- * @param nomrech mot recherché
- * @return liste des locaux
- * @throws Exception mot inconnue
- */
-   
-   public  ArrayList<Locaux> rechNom(String nomrech)throws Exception{
-       ArrayList<Locaux> listLocaux = new ArrayList<>();
-        String req = "select * from local where description = ?";
 
+    /**
+     * méthode statique permettant de récupérer tous les locaux portant un
+     * certain mot dans la description
+     *
+     * @param nomrech mot recherché
+     * @return liste des locaux
+     * @throws Exception mot inconnue
+     */
+    public List<Locaux> rechNom(String nomrech) throws Exception {
+        List<Locaux> plusieurs = new ArrayList<>();
+        String req = "select * from local where description = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(req)) {
             pstm.setString(1, nomrech);
             try (ResultSet rs = pstm.executeQuery()) {
@@ -142,18 +137,18 @@ public class LocauxDAO extends DAO<Locaux>{
                 while (rs.next()) {
                     trouve = true;
                     int idLoc = rs.getInt("IDLOCAL");
-                        String sigle = rs.getString("SIGLE");
-                        int places = rs.getInt("PLACES");
-                        String desc = rs.getString("DESCRIPTION");
-                        listLocaux.add(new Locaux(idLoc, sigle, places, desc,0));
+                    String sigle = rs.getString("SIGLE");
+                    int places = rs.getInt("PLACES");
+                    String desc = rs.getString("DESCRIPTION");
+                    plusieurs.add(new Locaux(idLoc, sigle, places, desc, 0));
                 }
-
                 if (!trouve) {
-                    throw new SQLException("Mot inconnue");
+                    throw new SQLException("nom inconnu");
                 } else {
-                    return listLocaux;
+                    return plusieurs;
                 }
             }
         }
+
     }
 }

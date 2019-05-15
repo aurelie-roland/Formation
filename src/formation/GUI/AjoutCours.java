@@ -51,6 +51,5 @@ public class AjoutCours extends JPanel{
         b4.add(rigidArea2);
         b4.add(b3);
         this.add(b4);
-    }
-    
+    }    
 }

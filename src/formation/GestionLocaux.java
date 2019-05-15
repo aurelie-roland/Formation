@@ -108,9 +108,9 @@ public class GestionLocaux {
                         Locaux locUp = new Locaux(id, sigle, places, des, 0);
                         locDAO.update(locUp);
                         break;
-                case 4: System.out.print("Entrez le sigle de ce que vous voulez supprimer : ");
-                        sigle = sc.nextLine();
-                        Locaux locDel = new Locaux(1,sigle,1," ", 0);
+                case 4: System.out.print("Entrez l'id de ce que vous voulez supprimer : ");
+                        id = sc.nextInt();
+                        Locaux locDel = new Locaux(id,"",1," ", 0);
                         locDAO.delete(locDel);
                         break;
                 case 5: System.out.print("Quel mot recherchez vous ? ");
