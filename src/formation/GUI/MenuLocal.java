@@ -53,6 +53,8 @@ public class MenuLocal extends JPanel{
         add(read);
 	add(Box.createRigidArea(new Dimension(0,10)));
 	add(del);
+        
+        
     }
     
 }

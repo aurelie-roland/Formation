@@ -20,7 +20,10 @@ import javax.swing.JPanel;
  */
 public class MenuCours extends JPanel{
     
-    
+    AjoutCours ajoutCours = new AjoutCours();
+    AffCours affCours = new AffCours();
+    DelCours delCours = new DelCours();
+    ModifCours modifCours = new ModifCours();
     public JButton add;
     public JButton up;
     public JButton read;
@@ -56,6 +59,38 @@ public class MenuCours extends JPanel{
         add(read);
 	add(Box.createRigidArea(new Dimension(0,10)));
 	add(del);
+        
+        add.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+		Window.fen.setContentPane(ajoutCours);
+                Window.fen.repaint();
+                Window.fen.revalidate();
+            }
+	});
+        
+        up.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+		Window.fen.setContentPane(modifCours);
+                Window.fen.repaint();
+                Window.fen.revalidate();
+            }
+	});
+        
+        read.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+		Window.fen.setContentPane(affCours);
+                Window.fen.repaint();
+                Window.fen.revalidate();
+            }
+	});
+        
+        del.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+		Window.fen.setContentPane(delCours);
+                Window.fen.repaint();
+                Window.fen.revalidate();
+            }
+	});
     }
     
 }

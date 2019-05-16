@@ -25,6 +25,7 @@ public class Menu extends JPanel{
     MenuLocal menuLoc = new MenuLocal();
     AjoutCours ajoutCours = new AjoutCours();
     MenuCours menuCours = new MenuCours();
+    MenuSessCours menuSess = new MenuSessCours();
     
     public JButton form;
     public JButton loc;
@@ -77,5 +78,37 @@ public class Menu extends JPanel{
 		}
             }
 	});
+        
+        cours.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                Window.fen.setContentPane(menuCours);
+                Window.fen.repaint();
+		Window.fen.revalidate();
+            }
+        });
+        
+        form.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                Window.fen.setContentPane(menuForm);
+                Window.fen.repaint();
+		Window.fen.revalidate();
+            }
+        });
+        
+        loc.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                Window.fen.setContentPane(menuLoc);
+                Window.fen.repaint();
+		Window.fen.revalidate();
+            }
+        });
+        
+        sess.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                Window.fen.setContentPane(menuSess);
+                Window.fen.repaint();
+		Window.fen.revalidate();
+            }
+        });
     }
 }

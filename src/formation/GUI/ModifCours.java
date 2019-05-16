@@ -5,10 +5,12 @@
  */
 package formation.GUI;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author Aurelie Roland
  */
-public class ModifCours {
+public class ModifCours extends JPanel{
     
 }

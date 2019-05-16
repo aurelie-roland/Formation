@@ -12,22 +12,33 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Aurelie Roland
  */
-public class Fenetre extends JFrame{
-
+public class Window extends JFrame{
+    
     Menu menu = new Menu();
     MenuFormateur menuForm = new MenuFormateur();
     MenuLocal menuLoc = new MenuLocal();
     MenuCours menuCours = new MenuCours();
     MenuSessCours menuSess = new MenuSessCours();
     AjoutCours ajoutCours = new AjoutCours();
+    public static Window fen = new Window();
+    AffCours affCours = new AffCours();
+    DelCours delCours = new DelCours();
+    ModifCours modifCours = new ModifCours();
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        
+    }
     
-    public Fenetre(){
+    public Window(){
         JMenuBar bar = new JMenuBar();
 	bar.setBackground(Color.WHITE);
         
@@ -88,69 +99,66 @@ public class Fenetre extends JFrame{
 	bar.add(cours);
         bar.add(sessCours);
 
-	//Ajout de la JMenuBar a la fenêtre
         this.setJMenuBar(bar);
-        
-        menu.form.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                remove(menu);
-                add(menuForm);
-                repaint();
-		revalidate();
-            }
-        });
-        
-        menu.loc.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                remove(menu);
-                add(menuLoc);
-                repaint();
-		revalidate();
-            }
-        });
-        
-        menu.sess.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                remove(menu);
-                add(menuSess);
-                repaint();
-		revalidate();
-            }
-        });
-        
-        menu.cours.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                remove(menu);
-                add(menuCours);
-                repaint();
-		revalidate();
-            }
-        });
-        
+ 
         itemMenu.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                setContentPane(menuForm);
+                setContentPane(menu);
                 repaint();
 		revalidate();
             }
         });
         
-        menuCours.add.addActionListener(new ActionListener(){
+        itemCreateCours.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-		remove(menuCours);
-                add(ajoutCours);
+                setContentPane(ajoutCours);
                 repaint();
-                revalidate();
+		revalidate();
+            }
+        });
+        
+        itemQuit.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+		String[] exitOp = { "Oui", "Non" };
+		int option = JOptionPane.showOptionDialog(null,"Voulez vous vraiment quitter ? ", "Exit",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, exitOp, exitOp[0]);
+		if (option == JOptionPane.YES_OPTION) {
+			System.exit(0);
+		}
             }
 	});
+        
+        itemUpCours.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                setContentPane(modifCours);
+                repaint();
+		revalidate();
+            }
+        });
+        
+	itemReadCours.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                setContentPane(affCours);
+                repaint();
+		revalidate();
+            }
+        });
+        
+        itemDelCours.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                setContentPane(delCours);
+                repaint();
+		revalidate();
+            }
+        });
         
         this.setTitle("Formation");
 	this.setSize(700, 550);
 	this.setLocationRelativeTo(null);
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.add(menu);
+        this.setContentPane(menu);
 	this.setResizable(false);
 	this.setVisible(true);
     }
+    
     
 }
