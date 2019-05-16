@@ -115,7 +115,7 @@ public class GestionLocaux {
                         break;
                 case 5: System.out.print("Quel mot recherchez vous ? ");
                         String mot = sc.nextLine();
-                        locDAO.rechNom(mot);
+                        System.out.println(locDAO.rechDesc(mot));
                         break;
                 case 6: flag = 1;
                         break;

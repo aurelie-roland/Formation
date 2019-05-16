@@ -144,10 +144,10 @@ public class LocauxDAOTest {
         instance.setConnection(dbConnect);
         obj1=instance.create(obj1);
         obj2=instance.create(obj2);
-        List<Locaux> result = instance.rechNom("description");
-        System.out.println(result.indexOf(obj1));
-        if(result.indexOf(obj1)<0) fail("record introuvable "+obj1);
-        if(result.indexOf(obj2)<0) fail("record introuvable"+obj2);
+        List<Locaux> result = instance.rechDesc("description");
+        if(result.size() != 2){
+            fail("record introuvable");
+        }
         instance.delete(obj1);
         instance.delete(obj2);
     }

@@ -123,15 +123,15 @@ public class LocauxDAO extends DAO<Locaux> {
      * méthode statique permettant de récupérer tous les locaux portant un
      * certain mot dans la description
      *
-     * @param nomrech mot recherché
+     * @param nomdesc mot recherché
      * @return liste des locaux
      * @throws Exception mot inconnue
      */
-    public List<Locaux> rechNom(String nomrech) throws Exception {
+    public List<Locaux> rechDesc(String nomdesc) throws SQLException{
         List<Locaux> plusieurs = new ArrayList<>();
-        String req = "select * from local where description = ?";
-        try (PreparedStatement pstm = dbConnect.prepareStatement(req)) {
-            pstm.setString(1, nomrech);
+        String req2 = "SELECT * FROM local WHERE description LIKE ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(req2)) {
+            pstm.setString(1, "%" + nomdesc + "%");
             try (ResultSet rs = pstm.executeQuery()) {
                 boolean trouve = false;
                 while (rs.next()) {
@@ -149,6 +149,5 @@ public class LocauxDAO extends DAO<Locaux> {
                 }
             }
         }
-
     }
 }
