@@ -5,51 +5,114 @@
  */
 package formation.GUI;
 
-import java.awt.Component;
+import formation.Cours;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import myconnections.DBConnection;
 
 /**
  *
  * @author Aurelie Roland
  */
-public class AjoutCours extends JPanel{
-    
-    public AjoutCours(){
-        
-   
+public class AjoutCours extends JPanel {
+
+    Connection dbConnect;
+
+    public AjoutCours() {
+        JPanel b1 = new JPanel();
+
+        b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
         JLabel label = new JLabel("Ajouter un Cours");
-        Box b1 = Box.createHorizontalBox();
-	b1.add(label);
- 
-        Box b2 = Box.createHorizontalBox();
+        b1.add(label);
+
+        JPanel b2 = new JPanel();
+
+        b2.setLayout(new BoxLayout(b2, BoxLayout.LINE_AXIS));
         JLabel nomCours = new JLabel("Nom du cours : ");
-	JTextField nomCoursTx = new JTextField();
-	nomCoursTx.setColumns(20);
- 
-	b2.add(nomCours);
+        JTextField nomCoursTx = new JTextField();
+
+        b2.add(nomCours);
         b2.add(nomCoursTx);
-        
-        
+
+        JPanel b3 = new JPanel();
+
+        b3.setLayout(new BoxLayout(b3, BoxLayout.LINE_AXIS));
         JLabel heureCours = new JLabel("Nombres d'heures de cours : ");
-	JTextField heureCoursTx = new JTextField();
-	heureCoursTx.setColumns(15);
- 
-        Box b3 = Box.createHorizontalBox();
+        JTextField heureCoursTx = new JTextField();
+        heureCoursTx.setColumns(15);
+
         b3.add(heureCours);
-	b3.add(heureCoursTx);
-        
-        Component rigidArea1 = Box.createRigidArea(new Dimension(0,70));
-        Component rigidArea2 = Box.createRigidArea(new Dimension(0,30));
-        Box b4 = Box.createVerticalBox();
+        b3.add(heureCoursTx);
+
+        JButton ajout = new JButton("Ajouter");
+
+        JPanel b4 = new JPanel();
+
+        b4.setLayout(new BoxLayout(b4, BoxLayout.PAGE_AXIS));
         b4.add(b1);
-        b4.add(rigidArea1);
+        b4.add(Box.createRigidArea(new Dimension(0, 25)));
         b4.add(b2);
-        b4.add(rigidArea2);
+        b4.add(Box.createRigidArea(new Dimension(0, 30)));
         b4.add(b3);
-        this.add(b4);
-    }    
+        b4.add(Box.createRigidArea(new Dimension(0, 50)));
+        b4.add(ajout);
+
+        add(b4);
+
+        ajout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int i = 0;
+                String nom = nomCoursTx.getText();
+                String heure = heureCoursTx.getText();
+                try {
+                    i = Integer.parseInt(heure);
+                } catch (NumberFormatException f) {
+                    // n'est pas un nombre, gérer ce cas
+                }
+                Cours addCours = new Cours(0, nom, i);
+                try {
+                    create(addCours);
+                    JOptionPane jop1 = new JOptionPane();
+                    jop1.showMessageDialog(null, "Bien ajouté à la base de donnée", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    Window.fen.setContentPane(new Menu());
+                    Window.fen.repaint();
+                    Window.fen.revalidate();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane jop1 = new JOptionPane();
+                    jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+    }
+
+    public boolean create(Cours obj) throws SQLException {
+        dbConnect = DBConnection.getConnection();
+        if (dbConnect == null) {
+            System.exit(0);
+        }
+        String query1 = "insert into COURS(MATIERE,HEURES) VALUES (?,?)";
+        try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1)) {
+            pstm1.setString(1, obj.getMatiere());
+            pstm1.setInt(2, obj.getHeures());
+            int n = pstm1.executeUpdate();
+            if (n == 0) {
+                return false;
+            }
+            return true;
+        }
+    }
 }
