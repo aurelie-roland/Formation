@@ -5,10 +5,23 @@
  */
 package formation.GUI;
 
-import java.awt.GridLayout;
+import formation.Cours;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import myconnections.DBConnection;
 
 /**
  *
@@ -16,27 +29,68 @@ import javax.swing.JTextField;
  */
 public class DelCours extends JPanel{
     
+     Connection dbConnect;
+    
     public DelCours(){
         
-        setLayout(new GridLayout(2,3,20,20));
-        JLabel del = new JLabel("Quel id du cours voulez vous supprimer ? ");
-        JTextField delID = new JTextField();
-       
+        JPanel b1 = new JPanel();
+
+        b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
+        JLabel cours = new JLabel("Quel ID de cours voulez vous supprimer ? ");
+        JTextField idCoursTx = new JTextField();
+        idCoursTx.setColumns(15);
+        b1.add(cours);
+        b1.add(idCoursTx);
+
+        JButton supp = new JButton("Supprimer");
+
+        JPanel b2 = new JPanel();
+
+        b2.setLayout(new BoxLayout(b2, BoxLayout.PAGE_AXIS));
+        b2.add(b1);
+        b2.add(Box.createRigidArea(new Dimension(0, 25)));
+        b2.add(supp);
+
+        add(b2);
         
-        JLabel del1 = new JLabel("Quel id du cours voulez vous supprimer ? ");
-        JTextField delID1 = new JTextField();
-        
-        JLabel del2 = new JLabel("Quel id ");
-        JTextField delID2 = new JTextField();
-        
-        
-        add(del);
-        add(delID);
-        
-        add(del1);
-        add(delID1);
-        
-        add(del2);
-        add(delID2);
+        supp.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int i = 0;
+                String idCours = idCoursTx.getText();
+                try {
+                    i = Integer.parseInt(idCours);
+                } catch (NumberFormatException f) {
+                    // n'est pas un nombre, gérer ce cas
+                }
+                Cours suppCours = new Cours(i);
+                try {
+                    delete(suppCours);
+                    JOptionPane jop1 = new JOptionPane();
+                    jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    Window.fen.setContentPane(new Menu());
+                    Window.fen.repaint();
+                    Window.fen.revalidate();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane jop1 = new JOptionPane();
+                    jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
     } 
+    
+    public void delete(Cours obj) throws SQLException {
+        dbConnect = DBConnection.getConnection();
+        if (dbConnect == null) {
+            System.exit(0);
+        }
+        String query1 = "delete from cours where idCours = ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query1)){
+            pstm.setInt(1, obj.getIdCours());
+            int n = pstm.executeUpdate();
+            if (n == 0) {
+                throw new SQLException("aucune ligne client effacée");
+            }       
+        }
+    }
 }
