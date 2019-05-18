@@ -24,10 +24,12 @@ public class MenuCours extends JPanel{
     AffCours affCours = new AffCours();
     DelCours delCours = new DelCours();
     ModifCours modifCours = new ModifCours();
+    RechercheCours rechCours = new RechercheCours();
     public JButton add;
     public JButton up;
     public JButton read;
     public JButton del;
+    public JButton search;
     
     public MenuCours(){
         
@@ -49,6 +51,10 @@ public class MenuCours extends JPanel{
         del.setMaximumSize(new Dimension(200, 47));
         del.setAlignmentX(Component.CENTER_ALIGNMENT);
         
+        search = new JButton("Recherche partielle");
+        search.setMaximumSize(new Dimension(200, 47));
+        search.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
 			
 
 	add(Box.createRigidArea(new Dimension(0,100)));
@@ -59,6 +65,8 @@ public class MenuCours extends JPanel{
         add(read);
 	add(Box.createRigidArea(new Dimension(0,10)));
 	add(del);
+        add(Box.createRigidArea(new Dimension(0,10)));
+        add(search);
         
         add.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -87,6 +95,14 @@ public class MenuCours extends JPanel{
         del.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
 		Window.fen.setContentPane(delCours);
+                Window.fen.repaint();
+                Window.fen.revalidate();
+            }
+	});
+        
+        search.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+		Window.fen.setContentPane(rechCours);
                 Window.fen.repaint();
                 Window.fen.revalidate();
             }

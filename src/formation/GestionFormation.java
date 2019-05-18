@@ -50,7 +50,7 @@ public class GestionFormation {
                 case 2: FormationDAO forD = new FormationDAO();
                         forD.menu();
                         break;
-                case 3: CoursDAO coursD = new CoursDAO();
+                case 3: GestionCours coursD = new GestionCours();
                         coursD.menu();
                         break; 
                 case 4: flag = 1;

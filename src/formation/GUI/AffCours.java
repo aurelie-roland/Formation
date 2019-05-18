@@ -3,15 +3,17 @@ package formation.GUI;
 import formation.Cours;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -44,30 +46,34 @@ public class AffCours extends JPanel {
 
         add(b2);
 
-        search.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int i = 0;
-                String idCours = idCoursTx.getText();
-                try {
-                    i = Integer.parseInt(idCours);
-                } catch (NumberFormatException f) {
-                    // n'est pas un nombre, gérer ce cas
-                }
-                Cours affCours = new Cours(i);
-                Cours c = read(affCours);
-                /*Object[][] data = {
-                    {c.getIdCours(), c.getMatiere(),c.getHeures()}
-                };*/
-
-                String title[] = {"ID Cours", "Matière", "Heures"};
-                //JTable tableau = new JTable(data, title);
-
-                //add((tableau));
+        search.addActionListener((ActionEvent e) -> {
+            int i = 0;
+            Cours c = null;
+            String idCours = idCoursTx.getText();
+            try {
+                i = Integer.parseInt(idCours);
+            } catch (NumberFormatException f) {
+                // n'est pas un nombre, gérer ce cas
             }
+            try {
+                c = read(i);
+
+                Object[][] data = {
+                    {"ID Cours : "+c.getIdCours(),"Matière : "+ c.getMatiere(),"Heures : "+c.getHeures()}
+                };
+                String title[] = {"ID Cours", "Matière", "Heures"};
+                JTable tableau = new JTable(data, title);
+                JOptionPane jop1 = new JOptionPane();
+                jop1.showMessageDialog(null, data, "Information", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(AffCours.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         });
     }
 
-   public Cours read(int id) throws SQLException {
+    public Cours read(int id) throws SQLException {
         Connection dbConnect = DBConnection.getConnection();
         if (dbConnect == null) {
             System.exit(0);

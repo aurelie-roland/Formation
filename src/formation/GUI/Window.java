@@ -30,6 +30,7 @@ public class Window extends JFrame {
     AffCours affCours = new AffCours();
     DelCours delCours = new DelCours();
     ModifCours modifCours = new ModifCours();
+    RechercheCours rechCours = new RechercheCours();
 
     /**
      * @param args the command line arguments
@@ -63,6 +64,7 @@ public class Window extends JFrame {
         JMenuItem itemUpCours = new JMenuItem("Mettre à jour");
         JMenuItem itemReadCours = new JMenuItem("Lire");
         JMenuItem itemDelCours = new JMenuItem("Supprimer");
+        JMenuItem itemRechCours = new JMenuItem("Recherche partielle");
 
         JMenu sessCours = new JMenu("Session cours");
         JMenuItem itemCreateSess = new JMenuItem("Ajouter");
@@ -87,6 +89,7 @@ public class Window extends JFrame {
         cours.add(itemUpCours);
         cours.add(itemReadCours);
         cours.add(itemDelCours);
+        cours.add(itemRechCours);
 
         sessCours.add(itemCreateSess);
         sessCours.add(itemUpSess);
@@ -145,6 +148,14 @@ public class Window extends JFrame {
         itemDelCours.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setContentPane(delCours);
+                repaint();
+                revalidate();
+            }
+        });
+        
+        itemRechCours.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setContentPane(rechCours);
                 repaint();
                 revalidate();
             }

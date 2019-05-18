@@ -7,6 +7,8 @@ package formation.GUI;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -17,6 +19,8 @@ import javax.swing.JPanel;
  * @author Aurelie Roland
  */
 public class MenuSessCours extends JPanel{
+    
+    AjoutSessionCours ajoutSess = new AjoutSessionCours();
     
     public JButton add;
     public JButton up;
@@ -53,6 +57,14 @@ public class MenuSessCours extends JPanel{
         add(read);
 	add(Box.createRigidArea(new Dimension(0,10)));
 	add(del);
+        
+        add.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+		Window.fen.setContentPane(ajoutSess);
+                Window.fen.repaint();
+                Window.fen.revalidate();
+            }
+	});
     }
     
 }

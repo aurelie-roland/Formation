@@ -27,12 +27,12 @@ import myconnections.DBConnection;
  *
  * @author Aurelie Roland
  */
-public class DelCours extends JPanel{
-    
-     Connection dbConnect;
-    
-    public DelCours(){
-        
+public class DelCours extends JPanel {
+
+    Connection dbConnect;
+
+    public DelCours() {
+
         JPanel b1 = new JPanel();
 
         b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
@@ -52,7 +52,7 @@ public class DelCours extends JPanel{
         b2.add(supp);
 
         add(b2);
-        
+
         supp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int i = 0;
@@ -77,20 +77,24 @@ public class DelCours extends JPanel{
                 }
             }
         });
-    } 
-    
+    }
+
     public void delete(Cours obj) throws SQLException {
         dbConnect = DBConnection.getConnection();
         if (dbConnect == null) {
             System.exit(0);
         }
         String query1 = "delete from cours where idCours = ?";
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query1)){
+        String query2 = "delete from SESSIONCOURS where idCours = ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query1);
+                PreparedStatement pstm2 = dbConnect.prepareStatement(query2)) {
             pstm.setInt(1, obj.getIdCours());
+            pstm2.setInt(1,obj.getIdCours());
+            int n2 = pstm2.executeUpdate();
             int n = pstm.executeUpdate();
             if (n == 0) {
                 throw new SQLException("aucune ligne client effacée");
-            }       
+            }
         }
     }
 }
