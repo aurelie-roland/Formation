@@ -170,5 +170,6 @@ public class Window extends JFrame {
         this.setContentPane(menu);
         this.setResizable(false);
         this.setVisible(true);
+        
     }
 }
