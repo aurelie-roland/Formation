@@ -5,6 +5,7 @@
  */
 package formation.GUI;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.sql.Connection;
@@ -27,24 +28,30 @@ public class MenuFormateur extends JPanel {
     public JButton del;
 
     public MenuFormateur() {
+        
+        this.setBackground(new Color(4, 14, 63));
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add = new JButton("Ajouter");
         add.setMaximumSize(new Dimension(200, 47));
         add.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add.setBackground(Color.white);
 
         up = new JButton("Mettre à jour");
         up.setMaximumSize(new Dimension(200, 47));
         up.setAlignmentX(Component.CENTER_ALIGNMENT);
+        up.setBackground(Color.white);
 
         read = new JButton("Lire");
         read.setMaximumSize(new Dimension(200, 47));
         read.setAlignmentX(Component.CENTER_ALIGNMENT);
+        read.setBackground(Color.white);
 
         del = new JButton("Supprimer");
         del.setMaximumSize(new Dimension(200, 47));
         del.setAlignmentX(Component.CENTER_ALIGNMENT);
+        del.setBackground(Color.white);
 
         add(Box.createRigidArea(new Dimension(0, 100)));
         add(add);

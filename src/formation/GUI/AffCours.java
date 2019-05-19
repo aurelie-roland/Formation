@@ -1,6 +1,7 @@
 package formation.GUI;
 
 import formation.Cours;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
@@ -27,16 +28,22 @@ public class AffCours extends JPanel {
     Connection dbConnect;
 
     public AffCours() {
+        
         JPanel b1 = new JPanel();
+        
+        this.setBackground(new Color(4,14,63));
 
         b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
         JLabel cours = new JLabel("Quel ID de cours cherchez vous ? ");
         JTextField idCoursTx = new JTextField();
         idCoursTx.setColumns(15);
+        cours.setForeground(Color.WHITE);
         b1.add(cours);
         b1.add(idCoursTx);
+        b1.setBackground(new Color(4,14,63));
 
         JButton search = new JButton("Rechercher");
+        search.setBackground(Color.white);
 
         JPanel b2 = new JPanel();
 
@@ -46,6 +53,7 @@ public class AffCours extends JPanel {
         b2.add(search);
 
         add(b2);
+        b2.setBackground(new Color(4,14,63));
 
         search.addActionListener((ActionEvent e) -> {
             int i = 0;
@@ -54,7 +62,7 @@ public class AffCours extends JPanel {
             try {
                 i = Integer.parseInt(idCours);
             } catch (NumberFormatException f) {
-                // n'est pas un nombre, gérer ce cas
+                // n'est pas un nombre, gérer ce cas ou = l'utilisateur a rien rentré 
             }
             try {
                 c = read(i);

@@ -5,6 +5,7 @@
  */
 package formation.GUI;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -36,27 +37,34 @@ public class MenuCours extends JPanel{
     
     public MenuCours(){
         
+        this.setBackground(new Color(4, 14, 63));
+        
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
             
         add = new JButton("Ajouter");
         add.setMaximumSize(new Dimension(200, 47));
         add.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add.setBackground(Color.white);
         
         up = new JButton("Mettre à jour");   
         up.setMaximumSize(new Dimension(200, 47));
         up.setAlignmentX(Component.CENTER_ALIGNMENT);
+        up.setBackground(Color.white);
 
         read = new JButton("Lire");
         read.setMaximumSize(new Dimension(200, 47));
         read.setAlignmentX(Component.CENTER_ALIGNMENT);
+        read.setBackground(Color.white);
 
         del = new JButton("Supprimer");
         del.setMaximumSize(new Dimension(200, 47));
         del.setAlignmentX(Component.CENTER_ALIGNMENT);
+        del.setBackground(Color.white);
         
         search = new JButton("Recherche partielle");
         search.setMaximumSize(new Dimension(200, 47));
         search.setAlignmentX(Component.CENTER_ALIGNMENT);
+        search.setBackground(Color.white);
         
 			
 
@@ -71,50 +79,40 @@ public class MenuCours extends JPanel{
         add(Box.createRigidArea(new Dimension(0,10)));
         add(search);
         
-        add.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                ajoutCours.setConnection(dbConnect);
-		Window.fen.setContentPane(ajoutCours);
-                Window.fen.repaint();
-                Window.fen.revalidate();
-            }
-	});
+        add.addActionListener((ActionEvent e) -> {
+            ajoutCours.setConnection(dbConnect);
+            Window.fen.setContentPane(ajoutCours);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
         
-        up.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                modifCours.setConnection(dbConnect);
-		Window.fen.setContentPane(modifCours);
-                Window.fen.repaint();
-                Window.fen.revalidate();
-            }
-	});
+        up.addActionListener((ActionEvent e) -> {
+            modifCours.setConnection(dbConnect);
+            Window.fen.setContentPane(modifCours);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
         
-        read.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                affCours.setConnection(dbConnect);
-		Window.fen.setContentPane(affCours);
-                Window.fen.repaint();
-                Window.fen.revalidate();
-            }
-	});
+        read.addActionListener((ActionEvent e) -> {
+            affCours.setConnection(dbConnect);
+            Window.fen.setContentPane(affCours);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
         
-        del.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                delCours.setConnection(dbConnect);
-		Window.fen.setContentPane(delCours);
-                Window.fen.repaint();
-                Window.fen.revalidate();
-            }
-	});
+        del.addActionListener((ActionEvent e) -> {
+            delCours.setConnection(dbConnect);
+            Window.fen.setContentPane(delCours);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
         
-        search.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                rechCours.setConnection(dbConnect);
-		Window.fen.setContentPane(rechCours);
-                Window.fen.repaint();
-                Window.fen.revalidate();
-            }
-	});
+        search.addActionListener((ActionEvent e) -> {
+            rechCours.setConnection(dbConnect);
+            Window.fen.setContentPane(rechCours);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
     }
 
     public  void setConnection(Connection nouvdbConnect) {

@@ -1,6 +1,7 @@
 package formation.GUI;
 
 import formation.Cours;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,19 +28,25 @@ public class DelCours extends JPanel {
     Connection dbConnect;
 
     public DelCours() {
+        this.setBackground(new Color(4, 14, 63));
 
         JPanel b1 = new JPanel();
 
         b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
         JLabel cours = new JLabel("Quel ID de cours voulez vous supprimer ? ");
+        cours.setForeground(Color.white);
         JTextField idCoursTx = new JTextField();
         idCoursTx.setColumns(15);
         b1.add(cours);
         b1.add(idCoursTx);
+        b1.setBackground(new Color(4, 14, 63));
 
         JButton supp = new JButton("Supprimer");
+        supp.setBackground(Color.white);
 
         JPanel b2 = new JPanel();
+        
+        b2.setBackground(new Color(4, 14, 63));
 
         b2.setLayout(new BoxLayout(b2, BoxLayout.PAGE_AXIS));
         b2.add(b1);

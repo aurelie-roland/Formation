@@ -7,7 +7,6 @@ package formation.GUI;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -113,68 +112,54 @@ public class Window extends JFrame {
 
         this.setJMenuBar(bar);
 
-        itemMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                menu.setConnection(dbConnect);
-                setContentPane(menu);
-                repaint();
-                revalidate();
+        itemMenu.addActionListener((ActionEvent e) -> {
+            menu.setConnection(dbConnect);
+            setContentPane(menu);
+            repaint();
+            revalidate();
+        });
+
+        itemCreateCours.addActionListener((ActionEvent e) -> {
+            ajoutCours.setConnection(dbConnect);
+            setContentPane(ajoutCours);
+            repaint();
+            revalidate();
+        });
+
+        itemQuit.addActionListener((ActionEvent e) -> {
+            String[] exitOp = {"Oui", "Non"};
+            int option = JOptionPane.showOptionDialog(null, "Voulez vous vraiment quitter ? ", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, exitOp, exitOp[0]);
+            if (option == JOptionPane.YES_OPTION) {
+                System.exit(0);
             }
         });
 
-        itemCreateCours.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ajoutCours.setConnection(dbConnect);
-                setContentPane(ajoutCours);
-                repaint();
-                revalidate();
-            }
+        itemUpCours.addActionListener((ActionEvent e) -> {
+            modifCours.setConnection(dbConnect);
+            setContentPane(modifCours);
+            repaint();
+            revalidate();
         });
 
-        itemQuit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String[] exitOp = {"Oui", "Non"};
-                int option = JOptionPane.showOptionDialog(null, "Voulez vous vraiment quitter ? ", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, exitOp, exitOp[0]);
-                if (option == JOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
-            }
+        itemReadCours.addActionListener((ActionEvent e) -> {
+            affCours.setConnection(dbConnect);
+            setContentPane(affCours);
+            repaint();
+            revalidate();
         });
 
-        itemUpCours.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                modifCours.setConnection(dbConnect);
-                setContentPane(modifCours);
-                repaint();
-                revalidate();
-            }
+        itemDelCours.addActionListener((ActionEvent e) -> {
+            delCours.setConnection(dbConnect);
+            setContentPane(delCours);
+            repaint();
+            revalidate();
         });
 
-        itemReadCours.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                affCours.setConnection(dbConnect);
-                setContentPane(affCours);
-                repaint();
-                revalidate();
-            }
-        });
-
-        itemDelCours.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                delCours.setConnection(dbConnect);
-                setContentPane(delCours);
-                repaint();
-                revalidate();
-            }
-        });
-
-        itemRechCours.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                rechCours.setConnection(dbConnect);
-                setContentPane(rechCours);
-                repaint();
-                revalidate();
-            }
+        itemRechCours.addActionListener((ActionEvent e) -> {
+            rechCours.setConnection(dbConnect);
+            setContentPane(rechCours);
+            repaint();
+            revalidate();
         });
 
         this.setTitle("Formation");
