@@ -24,9 +24,9 @@ public class Locaux {
         this.sigle = sigle;
         this.places = places;
         this.description = description;
-        if(read == 1){
+        /*if(read == 1){
             System.out.println(toString());
-        }
+        }*/
     }
 
     /**

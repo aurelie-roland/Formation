@@ -32,7 +32,7 @@ public class Cours {
         this.idCours = idCours;
         this.matiere = matiere;
         this.heures = heures;
-        System.out.println(toString());
+        //System.out.println(toString());
         
     }
 

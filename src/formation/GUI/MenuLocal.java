@@ -7,6 +7,7 @@ package formation.GUI;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.sql.Connection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -17,6 +18,8 @@ import javax.swing.JPanel;
  * @author Aurelie Roland
  */
 public class MenuLocal extends JPanel{
+    
+    Connection dbConnect;
     
     public JButton add;
     public JButton up;
@@ -56,5 +59,9 @@ public class MenuLocal extends JPanel{
         
         
     }
+    
+    public  void setConnection(Connection nouvdbConnect) {
+      dbConnect=nouvdbConnect;
+   }
     
 }

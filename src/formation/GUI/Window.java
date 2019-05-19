@@ -8,17 +8,21 @@ package formation.GUI;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import myconnections.DBConnection;
 
 /**
  *
  * @author Aurelie Roland
  */
 public class Window extends JFrame {
+
+    Connection dbConnect;
 
     Menu menu = new Menu();
     MenuFormateur menuForm = new MenuFormateur();
@@ -40,6 +44,12 @@ public class Window extends JFrame {
     }
 
     public Window() {
+
+        dbConnect = DBConnection.getConnection();
+        if (dbConnect == null) {
+            System.exit(0);
+        }
+
         JMenuBar bar = new JMenuBar();
         bar.setBackground(Color.WHITE);
 
@@ -105,6 +115,7 @@ public class Window extends JFrame {
 
         itemMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                menu.setConnection(dbConnect);
                 setContentPane(menu);
                 repaint();
                 revalidate();
@@ -113,6 +124,7 @@ public class Window extends JFrame {
 
         itemCreateCours.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                ajoutCours.setConnection(dbConnect);
                 setContentPane(ajoutCours);
                 repaint();
                 revalidate();
@@ -131,6 +143,7 @@ public class Window extends JFrame {
 
         itemUpCours.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                modifCours.setConnection(dbConnect);
                 setContentPane(modifCours);
                 repaint();
                 revalidate();
@@ -139,6 +152,7 @@ public class Window extends JFrame {
 
         itemReadCours.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                affCours.setConnection(dbConnect);
                 setContentPane(affCours);
                 repaint();
                 revalidate();
@@ -147,14 +161,16 @@ public class Window extends JFrame {
 
         itemDelCours.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                delCours.setConnection(dbConnect);
                 setContentPane(delCours);
                 repaint();
                 revalidate();
             }
         });
-        
+
         itemRechCours.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                rechCours.setConnection(dbConnect);
                 setContentPane(rechCours);
                 repaint();
                 revalidate();
@@ -165,6 +181,7 @@ public class Window extends JFrame {
         this.setSize(700, 550);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menu.setConnection(dbConnect);
         this.setContentPane(menu);
         this.setResizable(false);
         this.setVisible(true);

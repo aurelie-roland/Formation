@@ -21,13 +21,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import myconnections.DBConnection;
 
 /**
  *
  * @author Aurelie Roland
  */
 public class AjoutSessionCours extends JPanel {
+    
+    Connection dbConnect;
 
     public AjoutSessionCours() {
         JPanel b0 = new JPanel();
@@ -139,10 +140,6 @@ public class AjoutSessionCours extends JPanel {
     }
 
     public int create(SessionCours obj) throws SQLException {
-        Connection dbConnect = DBConnection.getConnection();
-        if (dbConnect == null) {
-            System.exit(0);
-        }
         String query1 = "insert into SESSIONCOURS(DATEDEBUT,DATEFIN,NBRINSCRIT,IDLOCAL,IDCOURS) VALUES (?,?,?,?,?)";
         try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1)) {
             pstm1.setString(1, obj.getDateDeb());
@@ -158,4 +155,8 @@ public class AjoutSessionCours extends JPanel {
             return 1;
         }
     }
+    
+    public  void setConnection(Connection nouvdbConnect) {
+      dbConnect=nouvdbConnect;
+   }
 }

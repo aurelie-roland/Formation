@@ -7,6 +7,7 @@ package formation.GUI;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.sql.Connection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,22 +17,24 @@ import javax.swing.JPanel;
  *
  * @author Aurelie Roland
  */
-public class MenuFormateur extends JPanel{
-    
+public class MenuFormateur extends JPanel {
+
+    Connection dbConnect;
+
     public JButton add;
     public JButton up;
     public JButton read;
     public JButton del;
-    
-    public MenuFormateur(){
-        
-        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-            
+
+    public MenuFormateur() {
+
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
         add = new JButton("Ajouter");
         add.setMaximumSize(new Dimension(200, 47));
         add.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        up = new JButton("Mettre à jour");   
+
+        up = new JButton("Mettre à jour");
         up.setMaximumSize(new Dimension(200, 47));
         up.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -42,17 +45,18 @@ public class MenuFormateur extends JPanel{
         del = new JButton("Supprimer");
         del.setMaximumSize(new Dimension(200, 47));
         del.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-			
 
-	add(Box.createRigidArea(new Dimension(0,100)));
-	add(add);
-	add(Box.createRigidArea(new Dimension(0,10)));
+        add(Box.createRigidArea(new Dimension(0, 100)));
+        add(add);
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(up);
-	add(Box.createRigidArea(new Dimension(0,10)));
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(read);
-	add(Box.createRigidArea(new Dimension(0,10)));
-	add(del);
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(del);
     }
-    
+
+    public void setConnection(Connection nouvdbConnect) {
+        dbConnect = nouvdbConnect;
+    }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package formation.GUI;
 
 import formation.Cours;
@@ -11,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import myconnections.DBConnection;
 
 /**
  *
@@ -55,46 +50,62 @@ public class DelCours extends JPanel {
 
         supp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                JOptionPane jop1 = new JOptionPane();
+                int flag = 1;
                 int i = 0;
                 String idCours = idCoursTx.getText();
                 try {
                     i = Integer.parseInt(idCours);
                 } catch (NumberFormatException f) {
-                    // n'est pas un nombre, gérer ce cas
+                    jop1.showMessageDialog(null, "Vous n'avez pas entré un nombre", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    flag = 0;
                 }
                 Cours suppCours = new Cours(i);
-                try {
-                    delete(suppCours);
-                    JOptionPane jop1 = new JOptionPane();
-                    jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
-                    Window.fen.setContentPane(new Menu());
-                    Window.fen.repaint();
-                    Window.fen.revalidate();
-                } catch (SQLException ex) {
-                    Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane jop1 = new JOptionPane();
-                    jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                if (flag == 1) {
+                    try {
+                        delete(suppCours);
+                        jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        Window.fen.setContentPane(new Menu());
+                        Window.fen.repaint();
+                        Window.fen.revalidate();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
+                        jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
         });
     }
 
     public void delete(Cours obj) throws SQLException {
-        dbConnect = DBConnection.getConnection();
-        if (dbConnect == null) {
-            System.exit(0);
-        }
+        int flag = 0;
         String query1 = "delete from cours where idCours = ?";
-        String query2 = "delete from SESSIONCOURS where idCours = ?";
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query1);
-                PreparedStatement pstm2 = dbConnect.prepareStatement(query2)) {
+        String querySess = "select * from SESSIONCOURS where idcours = ?";
+        try (PreparedStatement pstmSess = dbConnect.prepareStatement(querySess)) {
+            pstmSess.setInt(1, obj.getIdCours());
+            try (ResultSet rs = pstmSess.executeQuery()) {
+                if (rs.next()) {
+                    flag = 1;
+                }
+            }
+        }
+        if (flag == 1) {
+            String query2 = "delete from SESSIONCOURS where idCours = ?";
+            try (PreparedStatement pstm2 = dbConnect.prepareStatement(query2)) {
+                pstm2.setInt(1, obj.getIdCours());
+                int n2 = pstm2.executeUpdate();
+            }
+        }
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query1)) {
             pstm.setInt(1, obj.getIdCours());
-            pstm2.setInt(1,obj.getIdCours());
-            int n2 = pstm2.executeUpdate();
             int n = pstm.executeUpdate();
             if (n == 0) {
                 throw new SQLException("aucune ligne client effacée");
             }
         }
+    }
+
+    public void setConnection(Connection nouvdbConnect) {
+        dbConnect = nouvdbConnect;
     }
 }

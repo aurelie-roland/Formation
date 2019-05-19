@@ -44,7 +44,7 @@ public class Formation {
         this.loc = loc;
         this.cp = cp;
         this.tel = tel;
-        System.out.println(toString());
+       // System.out.println(toString());
     }
 
     /**

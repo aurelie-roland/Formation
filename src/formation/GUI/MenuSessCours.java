@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,7 +21,10 @@ import javax.swing.JPanel;
  */
 public class MenuSessCours extends JPanel{
     
+    Connection dbConnect;
+    
     AjoutSessionCours ajoutSess = new AjoutSessionCours();
+    AffSessionCours affSess = new AffSessionCours();
     
     public JButton add;
     public JButton up;
@@ -60,11 +64,25 @@ public class MenuSessCours extends JPanel{
         
         add.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                ajoutSess.setConnection(dbConnect);
 		Window.fen.setContentPane(ajoutSess);
                 Window.fen.repaint();
                 Window.fen.revalidate();
             }
 	});
+        
+        read.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                affSess.setConnection(dbConnect);
+		Window.fen.setContentPane(affSess);
+                Window.fen.repaint();
+                Window.fen.revalidate();
+            }
+	});
     }
+    
+    public  void setConnection(Connection nouvdbConnect) {
+      dbConnect=nouvdbConnect;
+   }
     
 }

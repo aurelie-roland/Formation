@@ -17,13 +17,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import myconnections.DBConnection;
 
 /**
  *
  * @author Aurelie Roland
  */
 public class AffCours extends JPanel {
+    
+    Connection dbConnect;
 
     public AffCours() {
         JPanel b1 = new JPanel();
@@ -74,10 +75,6 @@ public class AffCours extends JPanel {
     }
 
     public Cours read(int id) throws SQLException {
-        Connection dbConnect = DBConnection.getConnection();
-        if (dbConnect == null) {
-            System.exit(0);
-        }
         String query1 = "select * from cours where idcours = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query1)) {
             pstm.setInt(1, id);
@@ -93,4 +90,8 @@ public class AffCours extends JPanel {
             }
         }
     }
+    
+    public  void setConnection(Connection nouvdbConnect) {
+      dbConnect=nouvdbConnect;
+   }
 }

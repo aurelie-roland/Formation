@@ -24,13 +24,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import myconnections.DBConnection;
 
 /**
  *
  * @author Aurelie Roland
  */
 public class RechercheCours extends JPanel {
+    
+    Connection dbConnect;
 
     public RechercheCours() {
         JPanel b1 = new JPanel();
@@ -78,10 +79,6 @@ public class RechercheCours extends JPanel {
     }
 
     public List<Cours> rechDesc(String nomdesc) throws SQLException {
-        Connection dbConnect = DBConnection.getConnection();
-        if (dbConnect == null) {
-            System.exit(0);
-        }
         List<Cours> plusieurs = new ArrayList<>();
         String req2 = "SELECT * FROM cours WHERE matiere LIKE ? order by IDCOURS";
         try (PreparedStatement pstm = dbConnect.prepareStatement(req2)) {
@@ -103,4 +100,8 @@ public class RechercheCours extends JPanel {
             }
         }
     }
+    
+    public  void setConnection(Connection nouvdbConnect) {
+      dbConnect=nouvdbConnect;
+   }
 }

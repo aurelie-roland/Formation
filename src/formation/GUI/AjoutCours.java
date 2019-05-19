@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import myconnections.DBConnection;
 
 /**
  *
@@ -74,36 +73,35 @@ public class AjoutCours extends JPanel {
 
         ajout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int i = 0;
+                int i = 0, flag = 1;
+                JOptionPane jop1 = new JOptionPane();
                 String nom = nomCoursTx.getText();
+                //TODO vérifier que nom soit rempli
                 String heure = heureCoursTx.getText();
                 try {
                     i = Integer.parseInt(heure);
                 } catch (NumberFormatException f) {
-                    // n'est pas un nombre, gérer ce cas
+                    jop1.showMessageDialog(null, "Vous n'avez pas entré un nombre", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    flag = 0;
                 }
-                Cours addCours = new Cours(0, nom, i);
-                try {
-                    create(addCours);
-                    JOptionPane jop1 = new JOptionPane();
-                    jop1.showMessageDialog(null, "Bien ajouté à la base de donnée", "Message", JOptionPane.INFORMATION_MESSAGE);
-                    Window.fen.setContentPane(new Menu());
-                    Window.fen.repaint();
-                    Window.fen.revalidate();
-                } catch (SQLException ex) {
-                    Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane jop1 = new JOptionPane();
-                    jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                if(flag == 1){
+                    Cours addCours = new Cours(0, nom, i);
+                    try {
+                        create(addCours);
+                        jop1.showMessageDialog(null, "Bien ajouté à la base de donnée", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        Window.fen.setContentPane(new Menu());
+                        Window.fen.repaint();
+                        Window.fen.revalidate();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
+                        jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
         });
     }
 
     public boolean create(Cours obj) throws SQLException {
-        dbConnect = DBConnection.getConnection();
-        if (dbConnect == null) {
-            System.exit(0);
-        }
         String query1 = "insert into COURS(MATIERE,HEURES) VALUES (?,?)";
         try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1)) {
             pstm1.setString(1, obj.getMatiere());
@@ -115,4 +113,8 @@ public class AjoutCours extends JPanel {
             return true;
         }
     }
+
+    public  void setConnection(Connection nouvdbConnect) {
+      dbConnect=nouvdbConnect;
+   }
 }

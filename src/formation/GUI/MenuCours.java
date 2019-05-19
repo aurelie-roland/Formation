@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -30,6 +31,8 @@ public class MenuCours extends JPanel{
     public JButton read;
     public JButton del;
     public JButton search;
+    
+    Connection dbConnect;
     
     public MenuCours(){
         
@@ -70,6 +73,7 @@ public class MenuCours extends JPanel{
         
         add.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                ajoutCours.setConnection(dbConnect);
 		Window.fen.setContentPane(ajoutCours);
                 Window.fen.repaint();
                 Window.fen.revalidate();
@@ -78,6 +82,7 @@ public class MenuCours extends JPanel{
         
         up.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                modifCours.setConnection(dbConnect);
 		Window.fen.setContentPane(modifCours);
                 Window.fen.repaint();
                 Window.fen.revalidate();
@@ -86,6 +91,7 @@ public class MenuCours extends JPanel{
         
         read.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                affCours.setConnection(dbConnect);
 		Window.fen.setContentPane(affCours);
                 Window.fen.repaint();
                 Window.fen.revalidate();
@@ -94,6 +100,7 @@ public class MenuCours extends JPanel{
         
         del.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                delCours.setConnection(dbConnect);
 		Window.fen.setContentPane(delCours);
                 Window.fen.repaint();
                 Window.fen.revalidate();
@@ -102,11 +109,16 @@ public class MenuCours extends JPanel{
         
         search.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                rechCours.setConnection(dbConnect);
 		Window.fen.setContentPane(rechCours);
                 Window.fen.repaint();
                 Window.fen.revalidate();
             }
 	});
     }
+
+    public  void setConnection(Connection nouvdbConnect) {
+      dbConnect=nouvdbConnect;
+   }
     
 }
