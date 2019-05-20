@@ -55,42 +55,38 @@ public class DelCours extends JPanel {
 
         add(b2);
 
-        supp.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane jop1 = new JOptionPane();
-                int flag = 1;
-                int i = 0, x = 0;
-                String idCours = idCoursTx.getText();
-                if (idCours.equals("")) {
-                    jop1.showMessageDialog(null, "Champ manquant", "Message", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    try {
-                        i = Integer.parseInt(idCours);
-                    } catch (NumberFormatException f) {
-                        jop1.showMessageDialog(null, "Vous n'avez pas entré un nombre", "Message", JOptionPane.INFORMATION_MESSAGE);
-                        flag = 0;
-                    }
-                    Cours suppCours = new Cours(i);
-                    if (flag == 1) {
-                        try {
-                            x = delete(suppCours);
-                            if (x == 0) {
-                                jop1.showMessageDialog(null, "Aucune ligne supprimée", "Message", JOptionPane.INFORMATION_MESSAGE);
-                            } else {
-                                jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
-                                Window.fen.setContentPane(new Menu());
-                                Window.fen.repaint();
-                                Window.fen.revalidate();
-                            }
-
-                        } catch (SQLException ex) {
-                            Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
-                            jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
-                        }
-                    }
-
+        supp.addActionListener((ActionEvent e) -> {
+            JOptionPane jop1 = new JOptionPane();
+            int flag = 1;
+            int i = 0;
+            int x1 = 0;
+            String idCours = idCoursTx.getText();
+            if (idCours.equals("")) {
+                jop1.showMessageDialog(null, "Champ manquant", "Message", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                try {
+                    i = Integer.parseInt(idCours);
+                } catch (NumberFormatException f) {
+                    jop1.showMessageDialog(null, "Vous n'avez pas entré un nombre", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    flag = 0;
                 }
-
+                Cours suppCours = new Cours(i);
+                if (flag == 1) {
+                    try {
+                        x1 = delete(suppCours);
+                        if (x1 == 0) {
+                            jop1.showMessageDialog(null, "Aucune ligne supprimée", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
+                            Window.fen.setContentPane(new Menu());
+                            Window.fen.repaint();
+                            Window.fen.revalidate();
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
+                        jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
             }
         });
     }

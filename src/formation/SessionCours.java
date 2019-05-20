@@ -19,6 +19,10 @@ public class SessionCours {
     String dateFin;
     int nbrInscrit = 0;
     
+    public SessionCours(int idSess){
+        this.idSess = idSess;
+    }
+    
     public SessionCours(int idSess,String dateDeb, String dateFin, int nbrInscrit, int idLoc, int idCours){
         this.idSess = idSess;
         this.dateDeb = dateDeb;
