@@ -8,6 +8,7 @@ package formation.GUI;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,6 +20,11 @@ import javax.swing.JPanel;
  * @author Aurelie Roland
  */
 public class MenuFormateur extends JPanel {
+    
+    AfficherFormation affFor = new AfficherFormation();
+    AjoutFormation ajoutFor = new AjoutFormation();
+    ModifFormation modifFor = new ModifFormation();
+    SupprimerFormation suppFor = new SupprimerFormation();
 
     Connection dbConnect;
 
@@ -61,6 +67,34 @@ public class MenuFormateur extends JPanel {
         add(read);
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(del);
+        
+         add.addActionListener((ActionEvent e) -> {
+            ajoutFor.setConnection(dbConnect);
+            Window.fen.setContentPane(ajoutFor);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
+
+        up.addActionListener((ActionEvent e) -> {
+            modifFor.setConnection(dbConnect);
+            Window.fen.setContentPane(modifFor);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
+
+        read.addActionListener((ActionEvent e) -> {
+            affFor.setConnection(dbConnect);
+            Window.fen.setContentPane(affFor);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
+
+        del.addActionListener((ActionEvent e) -> {
+            suppFor.setConnection(dbConnect);
+            Window.fen.setContentPane(suppFor);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
     }
 
     public void setConnection(Connection nouvdbConnect) {

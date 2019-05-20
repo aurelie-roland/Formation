@@ -45,7 +45,7 @@ public class DelCours extends JPanel {
         supp.setBackground(Color.white);
 
         JPanel b2 = new JPanel();
-        
+
         b2.setBackground(new Color(4, 14, 63));
 
         b2.setLayout(new BoxLayout(b2, BoxLayout.PAGE_AXIS));
@@ -59,32 +59,43 @@ public class DelCours extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane jop1 = new JOptionPane();
                 int flag = 1;
-                int i = 0;
+                int i = 0, x = 0;
                 String idCours = idCoursTx.getText();
-                try {
-                    i = Integer.parseInt(idCours);
-                } catch (NumberFormatException f) {
-                    jop1.showMessageDialog(null, "Vous n'avez pas entré un nombre", "Message", JOptionPane.INFORMATION_MESSAGE);
-                    flag = 0;
-                }
-                Cours suppCours = new Cours(i);
-                if (flag == 1) {
+                if (idCours.equals("")) {
+                    jop1.showMessageDialog(null, "Champ manquant", "Message", JOptionPane.INFORMATION_MESSAGE);
+                } else {
                     try {
-                        delete(suppCours);
-                        jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
-                        Window.fen.setContentPane(new Menu());
-                        Window.fen.repaint();
-                        Window.fen.revalidate();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
-                        jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        i = Integer.parseInt(idCours);
+                    } catch (NumberFormatException f) {
+                        jop1.showMessageDialog(null, "Vous n'avez pas entré un nombre", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        flag = 0;
                     }
+                    Cours suppCours = new Cours(i);
+                    if (flag == 1) {
+                        try {
+                            x = delete(suppCours);
+                            if (x == 0) {
+                                jop1.showMessageDialog(null, "Aucune ligne supprimée", "Message", JOptionPane.INFORMATION_MESSAGE);
+                            } else {
+                                jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
+                                Window.fen.setContentPane(new Menu());
+                                Window.fen.repaint();
+                                Window.fen.revalidate();
+                            }
+
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
+                            jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+
                 }
+
             }
         });
     }
 
-    public void delete(Cours obj) throws SQLException {
+    public int delete(Cours obj) throws SQLException {
         int flag = 0;
         String query1 = "delete from cours where idCours = ?";
         String querySess = "select * from SESSIONCOURS where idcours = ?";
@@ -107,8 +118,9 @@ public class DelCours extends JPanel {
             pstm.setInt(1, obj.getIdCours());
             int n = pstm.executeUpdate();
             if (n == 0) {
-                throw new SQLException("aucune ligne client effacée");
+                return 0;
             }
+            return 1;
         }
     }
 

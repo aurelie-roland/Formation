@@ -8,6 +8,7 @@ package formation.GUI;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,6 +22,11 @@ import javax.swing.JPanel;
 public class MenuLocal extends JPanel{
     
     Connection dbConnect;
+    
+    AffLocal affLocal = new AffLocal();
+    AjoutLocal ajoutLoc = new AjoutLocal();
+    ModifLocal modifLoc = new ModifLocal();
+    SuppLocal suppLoc = new SuppLocal();
     
     public JButton add;
     public JButton up;
@@ -61,6 +67,34 @@ public class MenuLocal extends JPanel{
         add(read);
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(del);
+        
+        add.addActionListener((ActionEvent e) -> {
+            ajoutLoc.setConnection(dbConnect);
+            Window.fen.setContentPane(ajoutLoc);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
+
+        up.addActionListener((ActionEvent e) -> {
+            modifLoc.setConnection(dbConnect);
+            Window.fen.setContentPane(modifLoc);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
+
+        read.addActionListener((ActionEvent e) -> {
+            affLocal.setConnection(dbConnect);
+            Window.fen.setContentPane(affLocal);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
+
+        del.addActionListener((ActionEvent e) -> {
+            suppLoc.setConnection(dbConnect);
+            Window.fen.setContentPane(suppLoc);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
         
         
     }

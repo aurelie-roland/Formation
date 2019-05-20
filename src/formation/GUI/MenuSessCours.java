@@ -71,7 +71,7 @@ public class MenuSessCours extends JPanel {
         });
 
         up.addActionListener((ActionEvent e) -> {
-            ajoutSess.setConnection(dbConnect);
+            modifSess.setConnection(dbConnect);
             Window.fen.setContentPane(modifSess);
             Window.fen.repaint();
             Window.fen.revalidate();
@@ -85,7 +85,7 @@ public class MenuSessCours extends JPanel {
         });
 
         del.addActionListener((ActionEvent e) -> {
-            affSess.setConnection(dbConnect);
+            suppSess.setConnection(dbConnect);
             Window.fen.setContentPane(suppSess);
             Window.fen.repaint();
             Window.fen.revalidate();

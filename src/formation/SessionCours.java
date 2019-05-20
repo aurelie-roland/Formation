@@ -22,7 +22,7 @@ public class SessionCours {
     public SessionCours(int idSess,String dateDeb, String dateFin, int nbrInscrit, int idLoc, int idCours){
         this.idSess = idSess;
         this.dateDeb = dateDeb;
-        this.dateFin = dateDeb;
+        this.dateFin = dateFin;
         this.nbrInscrit = nbrInscrit;
         this.idLocal = idLoc;
         this.IdCours = idCours;

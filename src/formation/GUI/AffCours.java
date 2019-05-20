@@ -24,14 +24,14 @@ import javax.swing.JTextField;
  * @author Aurelie Roland
  */
 public class AffCours extends JPanel {
-    
+
     Connection dbConnect;
 
     public AffCours() {
-        
+
         JPanel b1 = new JPanel();
-        
-        this.setBackground(new Color(4,14,63));
+
+        this.setBackground(new Color(4, 14, 63));
 
         b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
         JLabel cours = new JLabel("Quel ID de cours cherchez vous ? ");
@@ -40,7 +40,7 @@ public class AffCours extends JPanel {
         cours.setForeground(Color.WHITE);
         b1.add(cours);
         b1.add(idCoursTx);
-        b1.setBackground(new Color(4,14,63));
+        b1.setBackground(new Color(4, 14, 63));
 
         JButton search = new JButton("Rechercher");
         search.setBackground(Color.white);
@@ -53,32 +53,43 @@ public class AffCours extends JPanel {
         b2.add(search);
 
         add(b2);
-        b2.setBackground(new Color(4,14,63));
+        b2.setBackground(new Color(4, 14, 63));
 
         search.addActionListener((ActionEvent e) -> {
-            int i = 0;
+            JOptionPane jop1 = new JOptionPane();
+            int i = 0, flag = 1;
             Cours c = null;
             String idCours = idCoursTx.getText();
-            try {
-                i = Integer.parseInt(idCours);
-            } catch (NumberFormatException f) {
-                // n'est pas un nombre, gérer ce cas ou = l'utilisateur a rien rentré 
+            if (idCours.equals("")) {
+                jop1.showMessageDialog(null, "Champ manquant", "Message", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                try {
+                    i = Integer.parseInt(idCours);
+                } catch (NumberFormatException f) {
+                    jop1.showMessageDialog(null, "Vous n'avez pas entré un nombre", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    flag = 0;
+                }
+                if (flag == 1) {
+                    try {
+                        c = read(i);
+                        if (c == null) {
+                            jop1.showMessageDialog(null, "l'id entré n'existe pas", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            Object[][] data = {
+                                {"ID Cours : " + c.getIdCours(), "Matière : " + c.getMatiere(), "Heures : " + c.getHeures()}
+                            };
+                            String title[] = {"ID Cours", "Matière", "Heures"};
+                            JTable tableau = new JTable(data, title);
+
+                            jop1.showMessageDialog(null, data, "Information", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AffCours.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
             }
-            try {
-                c = read(i);
-
-                Object[][] data = {
-                    {"ID Cours : "+c.getIdCours(),"Matière : "+ c.getMatiere(),"Heures : "+c.getHeures()}
-                };
-                String title[] = {"ID Cours", "Matière", "Heures"};
-                JTable tableau = new JTable(data, title);
-                JOptionPane jop1 = new JOptionPane();
-                jop1.showMessageDialog(null, data, "Information", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (SQLException ex) {
-                Logger.getLogger(AffCours.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
         });
     }
 
@@ -93,13 +104,13 @@ public class AffCours extends JPanel {
                     int heures = rs.getInt("HEURES");
                     return new Cours(idCours, matiere, heures);
                 } else {
-                    throw new SQLException("Code inconnu");
+                    return null;
                 }
             }
         }
     }
-    
-    public  void setConnection(Connection nouvdbConnect) {
-      dbConnect=nouvdbConnect;
-   }
+
+    public void setConnection(Connection nouvdbConnect) {
+        dbConnect = nouvdbConnect;
+    }
 }
