@@ -104,5 +104,4 @@ public class SupprimerSessionCours extends JPanel {
     public void setConnection(Connection nouvdbConnect) {
         dbConnect = nouvdbConnect;
     }
-
 }
