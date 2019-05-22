@@ -74,6 +74,13 @@ public class Formation {
         return tel;
     }
 
+    @Override
+    public String toString() {
+        return "Formation{" + "idForm=" + idForm + ", cp=" + cp + ", mat=" + mat + ", nom=" + nom + ", prenom=" + prenom + ", rue=" + rue + ", num=" + num + ", loc=" + loc + ", tel=" + tel + '}';
+    }
+    
+    
+
     public static class FormationBuilder {
 
         protected int cp, mat;
