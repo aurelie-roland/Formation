@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package formation.builder;
+package designpaterns;
 
 /**
  *
  * @author Aurelie Roland
  */
 public class Formation {
-    
+
     protected int idForm, cp, mat;
-    protected String nom,prenom,rue, num, loc, tel;
-    
+    protected String nom, prenom, rue, num, loc, tel;
+
     /**
      * Constructeur
+     *
      * @param idForm id de la formation
      * @param mat matricule
      * @param nom nom
@@ -26,8 +27,7 @@ public class Formation {
      * @param cp code postal
      * @param tel telephone
      */
-    private Formation(FormationBuilder fb){
-        this.idForm = fb.idForm;
+    private Formation(FormationBuilder fb) {
         this.mat = fb.mat;
         this.nom = fb.nom;
         this.prenom = fb.prenom;
@@ -73,18 +73,11 @@ public class Formation {
     public String getTel() {
         return tel;
     }
-    
-    
-    
-    public static class FormationBuilder{
-        
-        protected int idForm, cp, mat;
-        protected String nom,prenom,rue, num, loc, tel;
 
-        public FormationBuilder setIdForm(int idForm) {
-            this.idForm = idForm;
-            return this;
-        }
+    public static class FormationBuilder {
+
+        protected int cp, mat;
+        protected String nom, prenom, rue, num, loc, tel;
 
         public FormationBuilder setCp(int cp) {
             this.cp = cp;
@@ -125,10 +118,14 @@ public class Formation {
             this.tel = tel;
             return this;
         }
-        
-        
-        
-        
+
+        public Formation build() throws Exception {
+            if (cp <= 0 || mat <= 0 || nom == null || prenom == null || rue == null || num == null || loc == null || tel == null) {
+                throw new Exception("informations de construction incomplètes");
+            }
+            return new Formation(this);
+        }
+
     }
-    
+
 }
