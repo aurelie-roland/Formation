@@ -102,14 +102,14 @@ public class AjoutCours extends JPanel {
                                 Window.fen.setContentPane(new Menu());
                                 Window.fen.repaint();
                                 Window.fen.revalidate();
+                            } else if (x == -1) {
+                                jop1.showMessageDialog(null, "La matière existe déjà", "Message", JOptionPane.INFORMATION_MESSAGE);
                             }
                         } catch (SQLException ex) {
                             Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
                             jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
                         }
-                        if (x == -1) {
-                            jop1.showMessageDialog(null, "La matière existe déjà", "Message", JOptionPane.INFORMATION_MESSAGE);
-                        }
+
                     }
                 }
 

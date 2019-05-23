@@ -12,6 +12,10 @@ public class Locaux {
     int places = 0;
     String description = "";
     
+    public Locaux(int idLocal){
+        this.idLocal = idLocal;
+    }
+    
     /**
      * constructeur de la class Locaux
      * @param idLocal ID du local
