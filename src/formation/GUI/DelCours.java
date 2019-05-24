@@ -4,7 +4,6 @@ import formation.Cours;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,9 +77,6 @@ public class DelCours extends JPanel {
                             jop1.showMessageDialog(null, "Aucune ligne supprimée", "Message", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
-                            Window.fen.setContentPane(new Menu());
-                            Window.fen.repaint();
-                            Window.fen.revalidate();
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);

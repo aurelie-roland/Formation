@@ -4,7 +4,6 @@ import formation.SessionCours;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -163,9 +162,6 @@ public class ModifSessionCours extends JPanel {
                         jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
                     } else if (x1 == 1) {
                         jop1.showMessageDialog(null, "Bien ajouté à la base de donnée", "Message", JOptionPane.INFORMATION_MESSAGE);
-                        Window.fen.setContentPane(new Menu());
-                        Window.fen.repaint();
-                        Window.fen.revalidate();
                     } else {
                         jop1.showMessageDialog(null, "ID, IDCours ou IDLocal n'existe pas", "Message", JOptionPane.INFORMATION_MESSAGE);
                     }

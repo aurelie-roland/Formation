@@ -5,7 +5,6 @@
  */
 package formation.GUI;
 
-import formation.Cours;
 import formation.SessionCours;
 import java.awt.Color;
 import java.awt.Dimension;

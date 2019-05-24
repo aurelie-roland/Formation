@@ -6,12 +6,12 @@
 package formation.GUI;
 
 import formation.Locaux;
-import formation.SessionCours;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,6 +46,7 @@ public class ModifLocal extends JPanel {
         JLabel idLoc = new JLabel("Entrez l'id de ce que vous voulez changer : ");
         idLoc.setForeground(Color.white);
         JTextField idLocTx = new JTextField();
+        idLocTx.setColumns(2);
         b0.add(idLoc);
         b0.add(idLocTx);
         b0.setBackground(new Color(4, 14, 63));
@@ -81,7 +82,7 @@ public class ModifLocal extends JPanel {
 
         b3.add(desc);
         b3.add(descTx);
-        b3.setBackground(new Color(4, 14, 63)); 
+        b3.setBackground(new Color(4, 14, 63));
 
         JButton ajout = new JButton("Modifier");
         ajout.setBackground(Color.white);
@@ -125,7 +126,7 @@ public class ModifLocal extends JPanel {
                     flag = 0;
                 }
                 if (flag == 1) {
-                    Locaux modifLocaux = new Locaux(intIdLoc, sigleGT, intPlaces, descGT,0);
+                    Locaux modifLocaux = new Locaux(intIdLoc, sigleGT, intPlaces, descGT, 0);
                     try {
                         x1 = update(modifLocaux);
                     } catch (SQLException ex) {
@@ -133,11 +134,11 @@ public class ModifLocal extends JPanel {
                     }
                     if (x1 == 0) {
                         jop1.showMessageDialog(null, "Aucune ligne mise a jour", "Message", JOptionPane.INFORMATION_MESSAGE);
-                    } else{
-                        jop1.showMessageDialog(null, "Bien ajouté à la base de donnée", "Message", JOptionPane.INFORMATION_MESSAGE);
-                        Window.fen.setContentPane(new Menu());
-                        Window.fen.repaint();
-                        Window.fen.revalidate();
+                    } else if (x1 == 1){
+                        jop1.showMessageDialog(null, "Bien modifié", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else{
+                        jop1.showMessageDialog(null, "Sigle déjà existant", "Message", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             }
@@ -145,18 +146,33 @@ public class ModifLocal extends JPanel {
     }
 
     public int update(Locaux obj) throws SQLException {
+        int flag = 1;
         String query1 = "update local set places = ?,description = ?, sigle = ? where idlocal = ?";
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query1)) {
-            pstm.setString(3, obj.getSigle());
-            pstm.setInt(1, obj.getPlaces());
-            pstm.setString(2, obj.getDescription());
-            pstm.setInt(4, obj.getIdLocal());
-            pstm.executeUpdate();
-            int n = pstm.executeUpdate();
-            if (n == 0) {
-                return 0;
+        String req2 = "select * from local where sigle = ? and idlocal <> ?";
+        try (PreparedStatement pstm1 = dbConnect.prepareStatement(req2)) {
+            pstm1.setString(1, obj.getSigle());
+            pstm1.setInt(2,obj.getIdLocal());
+            try (ResultSet rs = pstm1.executeQuery()) {
+                if (rs.next()) {
+                    flag = 0;
+                }
             }
-            return 1;
+        }
+        if (flag == 1) {
+            try (PreparedStatement pstm = dbConnect.prepareStatement(query1)) {
+                pstm.setString(3, obj.getSigle());
+                pstm.setInt(1, obj.getPlaces());
+                pstm.setString(2, obj.getDescription());
+                pstm.setInt(4, obj.getIdLocal());
+                pstm.executeUpdate();
+                int n = pstm.executeUpdate();
+                if (n == 0) {
+                    return 0;
+                }
+                return 1;
+            }
+        } else {
+            return -1;
         }
     }
 

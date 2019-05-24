@@ -4,7 +4,6 @@ import formation.Cours;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,41 +77,35 @@ public class AjoutCours extends JPanel {
 
         add(b4);
 
-        ajout.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int i = 0, flag = 1, x = 0;
-                JOptionPane jop1 = new JOptionPane();
-                String nom = nomCoursTx.getText();
-                String heure = heureCoursTx.getText();
-                if (nom.equals("") || heure.equals("")) {
-                    jop1.showMessageDialog(null, "Champ manquant", "Message", JOptionPane.INFORMATION_MESSAGE);
-                } else {
+        ajout.addActionListener((ActionEvent e) -> {
+            int i = 0, flag = 1;
+            int x1 = 0;
+            JOptionPane jop1 = new JOptionPane();
+            String nom = nomCoursTx.getText();
+            String heure = heureCoursTx.getText();
+            if (nom.equals("") || heure.equals("")) {
+                jop1.showMessageDialog(null, "Champ manquant", "Message", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                try {
+                    i = Integer.parseInt(heure);
+                } catch (NumberFormatException f) {
+                    jop1.showMessageDialog(null, "Vous n'avez pas entré un nombre", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    flag = 0;
+                }
+                if (flag == 1) {
+                    Cours addCours = new Cours(0, nom, i);
                     try {
-                        i = Integer.parseInt(heure);
-                    } catch (NumberFormatException f) {
-                        jop1.showMessageDialog(null, "Vous n'avez pas entré un nombre", "Message", JOptionPane.INFORMATION_MESSAGE);
-                        flag = 0;
-                    }
-                    if (flag == 1) {
-                        Cours addCours = new Cours(0, nom, i);
-                        try {
-                            x = create(addCours);
-                            if (x == 1) {
-                                jop1.showMessageDialog(null, "Bien ajouté à la base de donnée", "Message", JOptionPane.INFORMATION_MESSAGE);
-                                Window.fen.setContentPane(new Menu());
-                                Window.fen.repaint();
-                                Window.fen.revalidate();
-                            } else if (x == -1) {
-                                jop1.showMessageDialog(null, "La matière existe déjà", "Message", JOptionPane.INFORMATION_MESSAGE);
-                            }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
-                            jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        x1 = create(addCours);
+                        if (x1 == 1) {
+                            jop1.showMessageDialog(null, "Bien ajouté à la base de donnée", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        } else if (x1 == -1) {
+                            jop1.showMessageDialog(null, "La matière existe déjà", "Message", JOptionPane.INFORMATION_MESSAGE);
                         }
-
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
+                        jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
-
             }
         });
     }

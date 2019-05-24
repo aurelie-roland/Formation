@@ -1,17 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package formation.GUI;
 
 import formation.Locaux;
-import formation.SessionCours;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,12 +22,12 @@ import javax.swing.JTextField;
  *
  * @author Aurelie Roland
  */
-public class SuppLocal extends JPanel{
-    
-     Connection dbConnect;
-     
-     public SuppLocal(){
-         this.setBackground(new Color(4, 14, 63));
+public class SuppLocal extends JPanel {
+
+    Connection dbConnect;
+
+    public SuppLocal() {
+        this.setBackground(new Color(4, 14, 63));
 
         JPanel b1 = new JPanel();
 
@@ -82,20 +77,35 @@ public class SuppLocal extends JPanel{
                             jop1.showMessageDialog(null, "Aucune ligne supprimée", "Message", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
-                            Window.fen.setContentPane(new Menu());
-                            Window.fen.repaint();
-                            Window.fen.revalidate();
                         }
-                    }catch (SQLException ex) {
+                    } catch (SQLException ex) {
                         Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);
                         jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             }
         });
-     }
-     
-     public int delete(Locaux obj) throws SQLException {
+    }
+
+    public int delete(Locaux obj) throws SQLException {
+        int flag = 0;
+        String querySess = "select * from SESSIONCOURS where idlocal = ?";
+        try (PreparedStatement pstmSess = dbConnect.prepareStatement(querySess)) {
+            pstmSess.setInt(1, obj.getIdLocal());
+            try (ResultSet rs = pstmSess.executeQuery()) {
+                if (rs.next()) {
+                    flag = 1;
+                }
+            }
+        }
+        if (flag == 1) {
+            String query2 = "delete from SESSIONCOURS where idlocal = ?";
+            try (PreparedStatement pstm2 = dbConnect.prepareStatement(query2)) {
+                pstm2.setInt(1, obj.getIdLocal());
+                int n2 = pstm2.executeUpdate();
+            }
+        }
+
         String query1 = "delete from local where idlocal = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query1)) {
             pstm.setInt(1, obj.getIdLocal());
@@ -106,10 +116,9 @@ public class SuppLocal extends JPanel{
             return 1;
         }
     }
-    
-    
-    public  void setConnection(Connection nouvdbConnect) {
-      dbConnect=nouvdbConnect;
-   }
-    
+
+    public void setConnection(Connection nouvdbConnect) {
+        dbConnect = nouvdbConnect;
+    }
+
 }

@@ -76,9 +76,6 @@ public class SupprimerSessionCours extends JPanel {
                             jop1.showMessageDialog(null, "Aucune ligne supprimée", "Message", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             jop1.showMessageDialog(null, "Bien supprimé", "Message", JOptionPane.INFORMATION_MESSAGE);
-                            Window.fen.setContentPane(new Menu());
-                            Window.fen.repaint();
-                            Window.fen.revalidate();
                         }
                     }catch (SQLException ex) {
                         Logger.getLogger(AjoutCours.class.getName()).log(Level.SEVERE, null, ex);

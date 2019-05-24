@@ -11,15 +11,14 @@ package formation;
  */
 public class Formation {
     
-    int idForm, cp, mat;
+    int idForm = 0, cp, mat;
     String nom,prenom,rue, num, loc, tel;
     
     /**
      * Constructeur
-     * @param mat matricule
      */
-    public Formation(int mat){
-        this.mat = mat;
+    public Formation(int idForm){
+        this.idForm = idForm;
     }
     
     /**

@@ -29,6 +29,18 @@ public class Window extends JFrame {
     DelCours delCours = new DelCours();
     ModifCours modifCours = new ModifCours();
     RechercheCours rechCours = new RechercheCours();
+    AffLocal affLocal = new AffLocal();
+    AjoutLocal ajoutLoc = new AjoutLocal();
+    ModifLocal modifLoc = new ModifLocal();
+    SuppLocal suppLoc = new SuppLocal();
+    AjoutSessionCours ajoutSess = new AjoutSessionCours();
+    AffSessionCours affSess = new AffSessionCours();
+    ModifSessionCours modifSess = new ModifSessionCours();
+    SupprimerSessionCours suppSess = new SupprimerSessionCours();
+    AfficherFormation affFor = new AfficherFormation();
+    AjoutFormation ajoutFor = new AjoutFormation();
+    ModifFormation modifFor = new ModifFormation();
+    SupprimerFormation suppFor = new SupprimerFormation();
 
     /**
      * @param args the command line arguments
@@ -157,6 +169,85 @@ public class Window extends JFrame {
             revalidate();
         });
 
+        itemCreateFor.addActionListener((ActionEvent e) -> {
+            ajoutFor.setConnection(dbConnect);
+            setContentPane(ajoutFor);
+            repaint();
+            revalidate();
+        });
+
+        itemUpFor.addActionListener((ActionEvent e) -> {
+            modifFor.setConnection(dbConnect);
+            setContentPane(modifFor);
+            repaint();
+            revalidate();
+        });
+
+        itemReadFor.addActionListener((ActionEvent e) -> {
+            affFor.setConnection(dbConnect);
+            setContentPane(affFor);
+            repaint();
+            revalidate();
+        });
+
+        itemDelFor.addActionListener((ActionEvent e) -> {
+            suppFor.setConnection(dbConnect);
+            setContentPane(suppFor);
+            repaint();
+            revalidate();
+        });
+
+        itemCreateLoc.addActionListener((ActionEvent e) -> {
+            ajoutLoc.setConnection(dbConnect);
+            setContentPane(ajoutLoc);
+            repaint();
+            revalidate();
+        });
+        itemUpLoc.addActionListener((ActionEvent e) -> {
+            modifLoc.setConnection(dbConnect);
+            setContentPane(modifLoc);
+            repaint();
+            revalidate();
+        });
+        itemReadLoc.addActionListener((ActionEvent e) -> {
+            affLocal.setConnection(dbConnect);
+            setContentPane(affLocal);
+            repaint();
+            revalidate();
+        });
+        itemDelLoc.addActionListener((ActionEvent e) -> {
+            suppLoc.setConnection(dbConnect);
+            setContentPane(suppLoc);
+            repaint();
+            revalidate();
+        });
+
+        itemCreateSess.addActionListener((ActionEvent e) -> {
+            ajoutSess.setConnection(dbConnect);
+            setContentPane(ajoutSess);
+            repaint();
+            revalidate();
+        });
+        itemUpSess.addActionListener((ActionEvent e) -> {
+            modifSess.setConnection(dbConnect);
+            setContentPane(modifSess);
+            repaint();
+            revalidate();
+        });
+        itemReadSess.addActionListener((ActionEvent e) -> {
+            affSess.setConnection(dbConnect);
+            setContentPane(affSess);
+            repaint();
+            revalidate();
+        });
+        itemDelSess.addActionListener((ActionEvent e) -> {
+            suppSess.setConnection(dbConnect);
+            setContentPane(suppSess);
+            repaint();
+            revalidate();
+        });
+        
+        
         this.setTitle("Formation");
         this.setSize(700, 550);
         this.setLocationRelativeTo(null);
