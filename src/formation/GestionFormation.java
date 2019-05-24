@@ -5,7 +5,7 @@
  */
 package formation;
 
-import formation.DAO.CoursDAO;
+
 import formation.DAO.FormationDAO;
 import java.sql.SQLException;
 import java.util.Scanner;

@@ -114,13 +114,13 @@ public class ModifCours extends JPanel {
                             if (res == 1) {
 
                                 jop1.showMessageDialog(null, "Bien modifié", "Message", JOptionPane.INFORMATION_MESSAGE);
-                                Window.fen.setContentPane(new Menu());
-                                Window.fen.repaint();
-                                Window.fen.revalidate();
                             } else if( res == 0){
                                 jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
                             }
-                            else{
+                            else if(res == -2){
+                                jop1.showMessageDialog(null, "La matière existe déjà", "Message", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                            else {
                                 jop1.showMessageDialog(null, "l'id entré n'existe pas", "Message", JOptionPane.INFORMATION_MESSAGE);
                             }
                         } catch (SQLException ex) {
@@ -141,6 +141,16 @@ public class ModifCours extends JPanel {
             try (ResultSet rs = pstm2.executeQuery()) {
                 if (rs.next()) {
                     flag = 0;
+                }
+            }
+        }
+        String req2 = "select * from cours where matiere = ? and idcours <> ?";
+        try (PreparedStatement pstm1 = dbConnect.prepareStatement(req2)) {
+            pstm1.setString(1, obj.getMatiere());
+            pstm1.setInt(2,obj.getIdCours());
+            try (ResultSet rs = pstm1.executeQuery()) {
+                if (rs.next()) {
+                    return -2;
                 }
             }
         }

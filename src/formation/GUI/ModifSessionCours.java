@@ -161,7 +161,7 @@ public class ModifSessionCours extends JPanel {
                     if (x1 == 0) {
                         jop1.showMessageDialog(null, "Une erreur s'est produite", "Message", JOptionPane.INFORMATION_MESSAGE);
                     } else if (x1 == 1) {
-                        jop1.showMessageDialog(null, "Bien ajouté à la base de donnée", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        jop1.showMessageDialog(null, "Bien modifié", "Message", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         jop1.showMessageDialog(null, "ID, IDCours ou IDLocal n'existe pas", "Message", JOptionPane.INFORMATION_MESSAGE);
                     }
