@@ -41,6 +41,7 @@ public class Window extends JFrame {
     AjoutFormation ajoutFor = new AjoutFormation();
     ModifFormation modifFor = new ModifFormation();
     SupprimerFormation suppFor = new SupprimerFormation();
+    AffichageCoursSession affCoursSess = new AffichageCoursSession();
 
     /**
      * @param args the command line arguments
@@ -87,6 +88,7 @@ public class Window extends JFrame {
         JMenuItem itemUpSess = new JMenuItem("Mettre à jour");
         JMenuItem itemReadSess = new JMenuItem("Lire");
         JMenuItem itemDelSess = new JMenuItem("Supprimer");
+        JMenuItem itemCoursSession = new JMenuItem("Session avec ID cours");
 
         fichier.add(itemMenu);
         fichier.add(itemQuit);
@@ -111,6 +113,8 @@ public class Window extends JFrame {
         sessCours.add(itemUpSess);
         sessCours.add(itemReadSess);
         sessCours.add(itemDelSess);
+        sessCours.add(itemCoursSession);
+        
         bar.add(fichier);
         bar.add(form);
         bar.add(loc);
@@ -247,6 +251,12 @@ public class Window extends JFrame {
             revalidate();
         });
         
+        itemCoursSession.addActionListener((ActionEvent e) -> {
+            affCoursSess.setConnection(dbConnect);
+            setContentPane(affCoursSess);
+            repaint();
+            revalidate();
+        });
         
         this.setTitle("Formation");
         this.setSize(700, 550);

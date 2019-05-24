@@ -22,11 +22,13 @@ public class MenuSessCours extends JPanel {
     AffSessionCours affSess = new AffSessionCours();
     ModifSessionCours modifSess = new ModifSessionCours();
     SupprimerSessionCours suppSess = new SupprimerSessionCours();
+    AffichageCoursSession affCoursSess = new AffichageCoursSession();
 
     public JButton add;
     public JButton up;
     public JButton read;
     public JButton del;
+    public JButton affCours;
 
     public MenuSessCours() {
 
@@ -53,6 +55,11 @@ public class MenuSessCours extends JPanel {
         del.setMaximumSize(new Dimension(200, 47));
         del.setAlignmentX(Component.CENTER_ALIGNMENT);
         del.setBackground(Color.white);
+        
+        affCours= new JButton("Session avec ID cours");
+        affCours.setMaximumSize(new Dimension(200, 47));
+        affCours.setAlignmentX(Component.CENTER_ALIGNMENT);
+        affCours.setBackground(Color.white);
 
         add(Box.createRigidArea(new Dimension(0, 100)));
         add(add);
@@ -62,6 +69,8 @@ public class MenuSessCours extends JPanel {
         add(read);
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(del);
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(affCours);
 
         add.addActionListener((ActionEvent e) -> {
             ajoutSess.setConnection(dbConnect);
@@ -87,6 +96,13 @@ public class MenuSessCours extends JPanel {
         del.addActionListener((ActionEvent e) -> {
             suppSess.setConnection(dbConnect);
             Window.fen.setContentPane(suppSess);
+            Window.fen.repaint();
+            Window.fen.revalidate();
+        });
+        
+        affCours.addActionListener((ActionEvent e) -> {
+            affCoursSess.setConnection(dbConnect);
+            Window.fen.setContentPane(affCoursSess);
             Window.fen.repaint();
             Window.fen.revalidate();
         });
